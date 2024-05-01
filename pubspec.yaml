@@ -40,6 +40,7 @@ dependencies:
   shared_preferences: ^2.2.3
   flutter_bloc: ^8.1.5
   uuid: ^4.4.0
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
