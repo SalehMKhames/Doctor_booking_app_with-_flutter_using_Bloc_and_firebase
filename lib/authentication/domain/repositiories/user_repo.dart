@@ -4,9 +4,9 @@ import 'package:doctory/authentication/domain/entities/user.dart';
 
 abstract class UserRepo
 {
-  //Future<Either<Failure, User>> userLogin(User userData);
+  Future<Either<Failure, User>> userLogin(String email, String password);
 
-  //Future<Either<Failure, User>> userRegister(User userData);
+  Future<Either<Failure, User>> userRegister(String email, String Password);
 
-  //Future<Either<Failure,User>> auth(String token);
+  Future<Either<Failure, String>> resetPassword(String email);
 }
