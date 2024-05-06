@@ -1,14 +1,18 @@
+import 'dart:io';
+
+import 'package:equatable/equatable.dart';
 import 'package:uuid/v4.dart';
 
-class User
+class User extends Equatable
 {
   final id = const UuidV4();
   final String firstName;
   final String lastName;
   final DateTime? birthDate;
   final String? phone;
+  final File? photo;
 
-  const User({ required UuidV4 id, required this.firstName, required this.lastName, required this.birthDate, required this.phone});
+  const User({ required UuidV4 id, required this.firstName, required this.lastName, this.birthDate, this.phone, this.photo});
 
   User copyWith({ UuidV4? iden,String? firstName, String? lastName, DateTime? birth, String? phone})
   {
@@ -45,4 +49,7 @@ class User
         'phone_Number' : phone
       };
   }
+
+  @override
+  List<Object?> get props => [id, firstName, lastName, birthDate, phone, photo];
 }
