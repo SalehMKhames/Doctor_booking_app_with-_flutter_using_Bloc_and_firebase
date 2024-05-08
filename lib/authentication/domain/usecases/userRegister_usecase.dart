@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import "../entities/user.dart";
 import "../repositiories/user_repo.dart";
+import 'package:doctory/core/ErrorHandling/failure.dart';
 
 class RegisterUsecase
 {

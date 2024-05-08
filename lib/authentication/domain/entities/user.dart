@@ -13,10 +13,11 @@ class User extends Equatable
   final DateTime? birthDate;
   final String? phone;
   final File? photo;
+  final String? medicalStatus;
 
-  const User({ required UuidV4 id, required this.firstName, required this.lastName, this.email, this.password, this.birthDate, this.phone, this.photo});
+  const User({ required UuidV4 id, required this.firstName, required this.lastName, this.email, this.password, this.birthDate, this.phone, this.photo, this.medicalStatus});
 
-  User copyWith({ UuidV4? iden,String? firstName, String? lastName, String? email, String? pass, DateTime? birth, String? phone})
+  User copyWith({ UuidV4? iden,String? firstName, String? lastName, String? email, String? pass, DateTime? birth, String? phone, String? Status})
   {
     return User(
         id : iden ?? id,
@@ -25,7 +26,8 @@ class User extends Equatable
         email: email ?? this.email,
         password: pass ?? password,
         birthDate: birth ?? birthDate,
-        phone: phone ?? this.phone
+        phone: phone ?? this.phone,
+        medicalStatus: Status ?? medicalStatus
     );
   }
 
@@ -40,6 +42,7 @@ class User extends Equatable
       birthDate: jsonMap['birthDate'] as DateTime,
       phone: jsonMap['phone_Number'] as String,
       photo: jsonMap['ProfilePic'] as File,
+      medicalStatus: jsonMap['MedicalStatus'] as String
     );
   }
 
@@ -53,9 +56,10 @@ class User extends Equatable
       'birthDate' : birthDate,
       'phone_Number' : phone,
       'ProfilePic' : photo,
+      'MedicalStatus' : medicalStatus,
       };
   }
 
   @override
-  List<Object?> get props => [id, firstName, email, password,lastName, birthDate, phone, photo];
+  List<Object?> get props => [id, firstName, email, password,lastName, birthDate, phone, photo,medicalStatus];
 }

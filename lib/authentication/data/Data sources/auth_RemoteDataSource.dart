@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:doctory/authentication/domain/entities/user.dart';
+import 'package:doctory/core/ErrorHandling/failure.dart';
 
 class UserRemoteSource
 {
