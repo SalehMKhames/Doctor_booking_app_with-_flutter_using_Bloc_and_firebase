@@ -6,7 +6,9 @@ abstract class UserRepo
 {
   Future<Either<Failure, User>> userLogin(String email, String password);
 
-  Future<Either<Failure, User>> userRegister(String email, String Password);
+  Future<Either<Failure, User>> userRegister(String email, String password);
 
-  Future<Either<Failure, String>> resetPassword(String email);
+  Future<Either<Failure, Unit> resetPassword(String email);
+
+  Future<Either<Failure, Unit>> userSignOut(String email);
 }
