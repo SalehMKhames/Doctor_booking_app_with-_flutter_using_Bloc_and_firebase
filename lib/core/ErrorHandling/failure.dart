@@ -1,15 +1,16 @@
-abstract class Failure {}
+abstract class Failure
+{
 
-class ServerFailure implements Failure{} //500
+}
 
-class EmptyCacheFailure implements Failure{}
+class ServerFailure implements Failure {
 
-class OfflineFailure implements Failure{}
+} //500
 
-class BadRequestFailure implements Failure{}//400
+class EmptyCacheFailure implements Failure {}
 
-class UnauthorizedFailure implements Failure{} //401
+//class OfflineFailure implements Failure {}
 
-class CategoryNotFoundFailure implements Failure{}//404
+class BadRequestFailure implements Failure {} //400
 
-class ProductNotFoundFailure implements Failure{}//404
+class UnauthorizedFailure implements Failure {} //401

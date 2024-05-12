@@ -1,13 +1,30 @@
-class ServerException implements Exception{}//500
+class ServerException implements Exception
+{
+  final String message;
 
-class EmptyCacheException implements Exception{}
+  ServerException(this.message);
+}//500
 
-class OfflineException implements Exception{}
+class EmptyCacheException implements Exception{
+  final String message;
 
-class BadRequestException implements Exception{}//400
+  EmptyCacheException(this.message);
+}
 
-class UnauthorizedException implements Exception{}//401
+class OfflineException implements Exception{
+  final String message;
 
-class CategoryNotFoundException implements Exception{}//404
+  OfflineException(this.message);
+}
 
-class ProductNotFoundException implements Exception{}//404
+class BadRequestException implements Exception{
+  final String message;
+
+  BadRequestException(this.message);
+}//400
+
+class UnauthorizedException implements Exception{
+  final String message;
+
+  UnauthorizedException(this.message);
+}//401
