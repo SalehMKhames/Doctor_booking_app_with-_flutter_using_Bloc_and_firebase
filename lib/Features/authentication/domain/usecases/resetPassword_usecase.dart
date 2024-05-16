@@ -6,7 +6,7 @@ import 'package:doctory/core/ErrorHandling/failure.dart';
 
 class ResetPasswordUsecase
 {
-  final UserRepo userRepo;
+  final UserCredentialsRepo userRepo;
 
   ResetPasswordUsecase({required this.userRepo});
 

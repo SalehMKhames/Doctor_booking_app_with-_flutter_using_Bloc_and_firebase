@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart';
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
 import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
@@ -12,30 +11,10 @@ class UserLocalSource
 
   UserLocalSource({required this.sharedPreferences});
 
-  Future<Unit> cachedUser(String keyName, User user) async
-  {
-    final cachedUserInfo = user.toJson();
-    await sharedPreferences.setString(keyName, json.encode(cachedUserInfo));
-    return Future.value(unit);
-  }
-
-  Future<Unit> cachedUserCredentials(String keyName, UserCredentials userCred) async
+  Future<void> cachingUserCredentials(String keyName, UserCredentials userCred) async
   {
     final cachedCred = userCred.toJson();
     await sharedPreferences.setString(keyName, json.encode(cachedCred));
-    return Future.value(unit);
-  }
-
-  Future<User> getCachedUser(String keyName) async
-  {
-    final userInfo = sharedPreferences.getString(keyName);
-
-    if(userInfo != null) {
-      return User.fromJson(json.decode(userInfo));
-    }
-    else{
-      throw EmptyCacheException("There is No ");
-    }
   }
 
   Future<User> getCachedUserCredentials(String keyName) async
@@ -46,7 +25,8 @@ class UserLocalSource
       return User.fromJson(json.decode(userCred));
     }
     else{
-      throw EmptyCacheException();
+      throw EmptyCacheException("There is no information about your credentials now. Please connect the Internet and try again");
     }
   }
+
 }

@@ -6,7 +6,7 @@ import 'package:doctory/core/ErrorHandling/failure.dart';
 
 class UserGetInfo
 {
-  final UserRepo userRepo;
+  final UserCredentialsRepo userRepo;
 
   const UserGetInfo({required this.userRepo});
 

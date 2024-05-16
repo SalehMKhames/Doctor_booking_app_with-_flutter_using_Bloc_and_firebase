@@ -6,7 +6,7 @@ import 'package:doctory/core/ErrorHandling/failure.dart';
 
 class DeleteUsecase
 {
-  final UserRepo userRepo;
+  final UserCredentialsRepo userRepo;
 
   DeleteUsecase({required this.userRepo});
 

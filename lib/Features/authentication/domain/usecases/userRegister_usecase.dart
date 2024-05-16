@@ -6,7 +6,7 @@ import 'package:doctory/core/ErrorHandling/failure.dart';
 
 class RegisterUsecase
 {
-  final UserRepo userRepo;
+  final UserCredentialsRepo userRepo;
 
   RegisterUsecase({required this.userRepo});
 

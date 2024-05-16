@@ -1,13 +1,12 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
-import 'package:doctory/common/user/domain/entity/user.dart';
-import 'package:doctory/core/ErrorHandling/exceptions.dart';
-import 'package:doctory/core/utils/Strings.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
-import 'package:doctory/core/ErrorHandling/failure.dart';
+import 'package:doctory/common/user/domain/entity/user.dart';
+import 'package:doctory/core/ErrorHandling/exceptions.dart';
+import 'package:doctory/core/utils/Strings.dart';
 
 class UserRemoteSource
 {
@@ -15,7 +14,7 @@ class UserRemoteSource
 
   UserRemoteSource({required this.client,});
 
-  Future<UserCredentials> Register(String email, String password) async
+  Future<UserCredentials> register(String email, String password) async
   {
       final res = await client.post(
         Uri.parse(SignUpURL),
@@ -29,17 +28,17 @@ class UserRemoteSource
       }
       else if(res.statusCode == 400) //on bad request
       {
-        throw BadRequestFailure();
+        throw BadRequestException("Sorry, We can't get your data now. Please try again");
       }
-      else if (res.statusCode == 401) // UnAutherized
+      else if (res.statusCode == 401) // UnAuthorized
       {
-         throw UnauthorizedException();
+         throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
       }
-      else { throw ServerException();}
+      else { throw ServerException("Sorry, there is some error we're trying to fix it");}
   }
 
 
-  Future<UserCredentials> LogIn (String email, String password) async
+  Future<UserCredentials> logIn (String email, String password) async
   {
       final res = await client.post(
         Uri.parse(SignInURL),
@@ -54,16 +53,16 @@ class UserRemoteSource
       }
       else if(res.statusCode == 400) //on bad request
           {
-        throw BadRequestFailure();
+        throw BadRequestException("Sorry, We can't get your data now. Please try again");
       }
-      else if (res.statusCode == 401) // UnAutherized
+      else if (res.statusCode == 401) // UnAuthorized
           {
-        throw UnauthorizedException();
+        throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
       }
-      else { throw ServerException();}
+      else { throw ServerException("Sorry, there is some error we're trying to fix it");}
   }
 
-  Future<Unit> ResetPassword(String userID, String newPassword) async
+  Future<Unit> resetPassword(String userID, String newPassword) async
   {
     final response = await client.post(
       Uri.parse(ChangingPassowrURL),
@@ -76,16 +75,16 @@ class UserRemoteSource
     }
     else if(response.statusCode == 400) //on bad request
         {
-      throw BadRequestFailure();
+      throw BadRequestException("Sorry, We can't get your data now. Please try again");
     }
-    else if (response.statusCode == 401) // UnAutherized
+    else if (response.statusCode == 401) // UnAuthorized
         {
-      throw UnauthorizedException();
+      throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
     }
-    else { throw ServerException();}
+    else { throw ServerException("Sorry, there is some error we're trying to fix it");}
   }
 
-  Future<Unit> DeleteAccount(String userID) async
+  Future<Unit> deleteAccount(String userID) async
   {
     final response = await client.post(
       Uri.parse(DeleteUserURL),
@@ -98,16 +97,12 @@ class UserRemoteSource
     }
     else if(response.statusCode == 400) //on bad request
         {
-      throw BadRequestFailure();
+      throw BadRequestException("Sorry, We can't delete your account now. Please try again");
     }
-    else if (response.statusCode == 401) // UnAutherized
-        {
-      throw UnauthorizedException();
-    }
-    else { throw ServerException();}
+    else { throw ServerException("Sorry, there is some error we're trying to fix it");}
   }
 
-  Future<User> GetUserInfo(String userID) async
+  Future<User> getUserInfo(String userID) async
   {
     final response = await client.post(
         Uri.parse(GetUserURL),
@@ -122,12 +117,12 @@ class UserRemoteSource
     }
     else if(response.statusCode == 400) //on bad request
     {
-      throw BadRequestFailure();
+      throw BadRequestException("Sorry, We can't delete your account now. Please try again");
     }
-    else if (response.statusCode == 401) // UnAutherized
+    else if (response.statusCode == 401) // UnAuthorized
     {
-      throw UnauthorizedException();
+      throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
     }
-    else { throw ServerException();}
+    else { throw ServerException("Sorry, there is some error we're trying to fix it");}
   }
 }

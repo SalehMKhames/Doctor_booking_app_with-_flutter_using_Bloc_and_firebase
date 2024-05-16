@@ -4,16 +4,17 @@ import 'package:doctory/Features/authentication/data/Data%20sources/auth_RemoteD
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
 import 'package:doctory/Features/authentication/domain/repositiories/user_credentials_repo.dart';
 import 'package:doctory/common/user/domain/entity/user.dart';
+import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
 
 
-class UserCredentialsIMP implements UserRepo
+class UserCredentialsImpl implements UserCredentialsRepo
 {
   final UserRemoteSource remoteSource;
   final UserLocalSource localSource;
 
 
-  UserCredentialsIMP({required this.remoteSource, required this.localSource});
+  UserCredentialsImpl({required this.remoteSource, required this.localSource});
 
   @override
   Future<Either<Failure, Unit>> resetPassword(String id, String newPassword)
@@ -37,9 +38,24 @@ class UserCredentialsIMP implements UserRepo
   }
 
   @override
-  Future<Either<Failure, UserCredentials>> userLogin(String email, String password) {
-    // TODO: implement userLogin
-    throw UnimplementedError();
+  Future<Either<Failure, UserCredentials>> userLogin(String email, String password) async
+  {
+    try
+    {
+      final result = await remoteSource.logIn(email, password);
+      await localSource.cachingUserCredentials("User", result);
+
+      return Right(result);
+    }
+    on ServerException {
+      return Left(ServerFailure());
+    }
+    on UnauthorizedException {
+      return left(UnauthorizedFailure());
+    }
+    on BadRequestException {
+      return left(BadRequestFailure());
+    }
   }
 
   @override
@@ -47,17 +63,28 @@ class UserCredentialsIMP implements UserRepo
   {
     try
     {
-      final result = await remoteSource.Register(email, password);
-      await localSource.cachedUserCredentials("User", result);
+      final result = await remoteSource.register(email, password);
+      await localSource.cachingUserCredentials("User", result);
 
       return Right(result);
     }
-    on Ser
-    catch(){}
+    on ServerException {
+      return Left(ServerFailure());
+    }
+    on UnauthorizedException {
+      return left(UnauthorizedFailure());
+    }
+    on BadRequestException {
+      return left(BadRequestFailure());
+    }
+    // else{
+    //   return Left(ServerFailure());
+    // }
   }
 
   @override
-  Future<Either<Failure, Unit>> userSignOut(String email) {
+  Future<Either<Failure, Unit>> userSignOut(String email) async
+  {
     // TODO: implement userSignOut
     throw UnimplementedError();
   }
