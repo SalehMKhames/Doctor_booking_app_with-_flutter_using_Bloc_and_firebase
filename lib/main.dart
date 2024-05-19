@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body:Container(color: Colors.orange, height: 150, width: 120,),
+      body: Container(color: Colors.orange, height: 150, width: 120,),
     );
   }
 }

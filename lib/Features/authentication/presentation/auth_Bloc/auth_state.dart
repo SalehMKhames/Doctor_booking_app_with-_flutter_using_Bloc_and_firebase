@@ -1,40 +1,53 @@
 part of 'auth_bloc.dart';
 
-sealed class AuthState extends Equatable {
-  const AuthState();
-}
+enum UserAuthStatus {init, loading, success, failed}
 
-final class AuthInitial extends AuthState {
-  @override
-  List<Object> get props => [];
-}
-
-final class LogInState extends AuthState
+class AuthState extends Equatable
 {
-  @override
-  List<Object> get props => [];
-}
+  final User? user;
+  final UserCredentials? credentials;
+  final UserAuthStatus userLogIn;
+  final UserAuthStatus userRegister;
+  final UserAuthStatus userResetPassword;
+  final UserAuthStatus userDelete;
+  final UserAuthStatus userGetinfo;
 
-final class SignUpState extends AuthState
-{
-  @override
-  List<Object> get props => [];
-}
 
-final class ResetPasswordSTate extends AuthState
-{
-  @override
-  List<Object> get props => [];
-}
+  const AuthState(
+  {
+    this.user,
+    this.credentials,
 
-final class DeleteUserSTate extends AuthState
-{
-  @override
-  List<Object> get props => [];
-}
+    this.userLogIn = UserAuthStatus.init,
+    this.userRegister= UserAuthStatus.init,
+    this.userResetPassword= UserAuthStatus.init,
+    this.userDelete= UserAuthStatus.init,
+    this.userGetinfo= UserAuthStatus.init
+  });
 
-final class GetInfoState extends AuthState
-{
+  AuthState copyWith({
+    User? user,
+    UserCredentials? cred,
+    UserAuthStatus? userLogIn,
+    UserAuthStatus? userRegister,
+    UserAuthStatus? userResetPassword,
+    UserAuthStatus? userDelete,
+    UserAuthStatus? userGetinfo,
+  })
+  {
+    return AuthState
+    (
+      user: user ?? this.user,
+      credentials: cred ?? credentials,
+      userLogIn: userLogIn ?? this.userLogIn,
+      userRegister: userRegister ?? this.userRegister,
+      userResetPassword:  userResetPassword ?? this.userResetPassword,
+      userDelete: userDelete ?? this.userDelete,
+      userGetinfo: userGetinfo ?? this.userGetinfo
+    );
+  }
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [credentials, userLogIn, userRegister, userDelete, userResetPassword, userGetinfo];
+
 }
