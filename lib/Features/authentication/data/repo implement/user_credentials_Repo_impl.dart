@@ -3,7 +3,6 @@ import 'package:doctory/Features/authentication/data/Data%20sources/auth_LocalDa
 import 'package:doctory/Features/authentication/data/Data%20sources/auth_RemoteDataSource.dart';
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
 import 'package:doctory/Features/authentication/domain/repositiories/user_credentials_repo.dart';
-import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
 
@@ -13,28 +12,28 @@ class UserCredentialsImpl implements UserCredentialsRepo
   final UserRemoteSource remoteSource;
   final UserLocalSource localSource;
 
-
   UserCredentialsImpl({required this.remoteSource, required this.localSource});
 
   @override
-  Future<Either<Failure, Unit>> resetPassword(String id, String newPassword)
+  Future<Either<Failure, UserCredentials>> userRegister(String email, String password) async
   {
-    // TODO: implement resetPassword
-    throw UnimplementedError();
-  }
+    try
+    {
+      final result = await remoteSource.register(email, password);
+      await localSource.cachingUserCredentials("User", result);
 
-  @override
-  Future<Either<Failure, Unit>> userDelete(String id)
-  {
-    // TODO: implement userDelete
-    throw UnimplementedError();
-  }
+      return Right(result);
+    }
+    on ServerException {
+      return Left(ServerFailure());
+    }
+    on UnauthorizedException {
+      return left(UnauthorizedFailure());
+    }
+    on BadRequestException {
+      return left(BadRequestFailure());
+    }
 
-  @override
-  Future<Either<Failure, User>> userGetInfo(String id)
-  {
-    // TODO: implement userGetInfo
-    throw UnimplementedError();
   }
 
   @override
@@ -59,13 +58,10 @@ class UserCredentialsImpl implements UserCredentialsRepo
   }
 
   @override
-  Future<Either<Failure, UserCredentials>> userRegister(String email, String password) async
+  Future<Either<Failure, Unit>> userDelete(String id) async
   {
-    try
-    {
-      final result = await remoteSource.register(email, password);
-      await localSource.cachingUserCredentials("User", result);
-
+    try{
+      final result = await remoteSource.deleteAccount(id);
       return Right(result);
     }
     on ServerException {
@@ -77,16 +73,23 @@ class UserCredentialsImpl implements UserCredentialsRepo
     on BadRequestException {
       return left(BadRequestFailure());
     }
-    // else{
-    //   return Left(ServerFailure());
-    // }
   }
 
   @override
-  Future<Either<Failure, Unit>> userSignOut(String email) async
+  Future<Either<Failure, Unit>> resetPassword(String id, String newPassword) async
   {
-    // TODO: implement userSignOut
-    throw UnimplementedError();
+    try{
+      final result = await remoteSource.resetPassword(id, newPassword);
+      return Right(result);
+    }
+    on ServerException {
+      return Left(ServerFailure());
+    }
+    on UnauthorizedException {
+      return left(UnauthorizedFailure());
+    }
+    on BadRequestException {
+      return left(BadRequestFailure());
+    }
   }
-
 }

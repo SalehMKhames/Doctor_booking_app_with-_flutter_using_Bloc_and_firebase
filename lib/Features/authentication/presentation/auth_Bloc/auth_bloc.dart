@@ -9,7 +9,6 @@ import '../../domain/usecases/userRegister_usecase.dart';
 import '../../domain/usecases/userLogin_usecase.dart';
 import '../../domain/usecases/resetPassword_usecase.dart';
 import '../../domain/usecases/userDelete_usecase.dart';
-import '../../domain/usecases/userGetInfo_usercase.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -22,7 +21,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   final LoginUsecase loginUsecase;
   final ResetPasswordUsecase resetPasswordUsecase;
   final DeleteUsecase deleteUsecase;
-  final UserGetInfo userGetInfo;
 
   AuthBloc(
       this.user,
@@ -31,14 +29,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
       this.loginUsecase,
       this.resetPasswordUsecase,
       this.deleteUsecase,
-      this.userGetInfo
       ) : super(const AuthState())
   {
     on<LogInEvent>(_login);
     on<SignUpEvent>(_signup);
     on<DeleteEvent>(_delete);
     on<ResetPasswordEvent>(_resetpassword);
-    on<GetInfoEvent>(_getInfo);
   }
 
 
@@ -89,15 +85,4 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     );
   }
 
-  FutureOr<void> _getInfo(GetInfoEvent event, Emitter<AuthState> emit) async
-  {
-    emit(state.copyWith(userResetPassword: UserAuthStatus.loading));
-    final result = await userGetInfo.execute(user);
-
-    result.fold
-    (
-        (fail) => emit(state.copyWith(userGetinfo: UserAuthStatus.failed)),
-        (user) => emit(state.copyWith(user: user, userGetinfo: UserAuthStatus.success))
-    );
-  }
 }

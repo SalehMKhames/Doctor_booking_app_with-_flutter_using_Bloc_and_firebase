@@ -12,9 +12,5 @@ abstract class UserCredentialsRepo
 
   Future<Either<Failure, Unit>> resetPassword(String id, String newPassword);
 
-  Future<Either<Failure, Unit>> userSignOut(String email);
-
   Future<Either<Failure, Unit>> userDelete(String id);
-
-  Future<Either<Failure, User>> userGetInfo(String id);
 }
