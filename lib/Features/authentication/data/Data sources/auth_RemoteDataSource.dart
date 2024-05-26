@@ -8,11 +8,11 @@ import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/utils/Strings.dart';
 
-class UserRemoteSource
+class AuthRemoteSource
 {
   final http.Client client;
 
-  UserRemoteSource({required this.client,});
+  AuthRemoteSource({required this.client,});
 
   Future<UserCredentials> register(String email, String password) async
   {

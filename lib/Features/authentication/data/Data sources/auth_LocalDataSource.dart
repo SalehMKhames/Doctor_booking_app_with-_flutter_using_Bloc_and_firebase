@@ -5,11 +5,11 @@ import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserLocalSource
+class AuthLocalSource
 {
   final SharedPreferences sharedPreferences;
 
-  UserLocalSource({required this.sharedPreferences});
+  AuthLocalSource({required this.sharedPreferences});
 
   Future<void> cachingUserCredentials(String keyName, UserCredentials userCred) async
   {

@@ -9,8 +9,8 @@ import 'package:doctory/core/ErrorHandling/failure.dart';
 
 class UserCredentialsImpl implements UserCredentialsRepo
 {
-  final UserRemoteSource remoteSource;
-  final UserLocalSource localSource;
+  final AuthRemoteSource remoteSource;
+  final AuthLocalSource localSource;
 
   UserCredentialsImpl({required this.remoteSource, required this.localSource});
 
