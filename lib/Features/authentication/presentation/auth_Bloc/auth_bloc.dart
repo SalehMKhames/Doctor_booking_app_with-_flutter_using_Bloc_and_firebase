@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:doctory/common/user/domain/entity/user.dart';
+import 'package:doctory/core/utils/Strings.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
@@ -44,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     final result = await registerUsecase.execute(userCredential);
     
     result.fold(
-      (fail) => emit(state.copyWith(userRegister: UserAuthStatus.failed)),
+      (fail) => emit(state.copyWith(userRegister: UserAuthStatus.failed, message: RegisterSuccess)),
       (credentials) => emit(state.copyWith(cred: credentials, userRegister: UserAuthStatus.success)),
     );
   }

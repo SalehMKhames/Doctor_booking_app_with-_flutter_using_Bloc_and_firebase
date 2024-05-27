@@ -7,4 +7,12 @@ const String DeleteUserURL = "$BaseURL/accounts:delete?key=$API_KEY";
 const String ChangingPassowrURL = "$BaseURL/accounts:update?key=$API_KEY";
 const String GetUserURL = "$BaseURL/accounts:lookup?key=$API_KEY";
 
-final String DataBaseURL ="https://doctory-app-38c91-default-rtdb.europe-west1.firebasedatabase.app/";
+const String DataBaseURL ="https://doctory-app-38c91-default-rtdb.europe-west1.firebasedatabase.app/";
+
+const  AddUserSuccess='The  User have been added Successfully';
+const  DeleteUserSuccess='The  User have been deleted Successfully';
+const  UpdateUserSuccess='The  User have been changed Successfully';
+
+const  LogInSuccess='LogIn have done Successfully';
+const  RegisterSuccess='Register have done Successfully';
+const  LogOut_Success='LogOut Have been Completed Successfully';

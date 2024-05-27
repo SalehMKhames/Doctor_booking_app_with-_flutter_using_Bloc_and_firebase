@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
-import 'package:doctory/common/user/domain/entity/user.dart';
+
 import 'package:doctory/core/ErrorHandling/failure.dart';
 
 abstract class UserCredentialsRepo

@@ -1,5 +1,6 @@
 import 'package:doctory/Features/authentication/presentation/auth_Bloc/auth_bloc.dart';
 import 'package:doctory/core/Depend_injection/dependency_injection.dart';
+import 'package:doctory/core/Themes/App_Theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,11 +29,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthBloc>(create: (_) => sl<AuthBloc>()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme().themData,
         home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
