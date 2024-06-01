@@ -6,6 +6,7 @@ import 'package:doctory/core/utils/Strings.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
+import 'package:injectable/injectable.dart';
 import '../../domain/usecases/userRegister_usecase.dart';
 import '../../domain/usecases/userLogin_usecase.dart';
 import '../../domain/usecases/resetPassword_usecase.dart';
@@ -14,6 +15,7 @@ import '../../domain/usecases/userDelete_usecase.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+@Injectable()
 class AuthBloc extends Bloc<AuthEvent, AuthState>
 {
   final User user;

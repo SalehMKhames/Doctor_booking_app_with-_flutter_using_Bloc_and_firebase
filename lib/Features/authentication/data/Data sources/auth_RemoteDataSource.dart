@@ -7,7 +7,9 @@ import 'package:doctory/Features/authentication/domain/entities/userCredentials.
 import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/utils/Strings.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable()
 class AuthRemoteSource
 {
   final http.Client client;

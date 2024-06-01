@@ -1,4 +1,5 @@
 import 'package:doctory/Features/authentication/presentation/auth_Bloc/auth_bloc.dart';
+import 'package:doctory/Features/authentication/presentation/screens/Register_screen.dart';
 import 'package:doctory/core/Depend_injection/dependency_injection.dart';
 import 'package:doctory/core/Themes/App_Theme.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ void main() async
 {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  di.init();
+  await configureInjection();
   runApp(const MyApp());
 }
 
@@ -26,36 +27,36 @@ class MyApp extends StatelessWidget {
       (
       providers:
       [
-        BlocProvider<AuthBloc>(create: (_) => sl<AuthBloc>()),
+        BlocProvider<AuthBloc>(create: (_) => getIt<AuthBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme().themData,
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: const RegisterScreen(),
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Doctory"),
-      ),
-      body: Container(color: Colors.orange, height: 150, width: 120,),
-    );
-  }
-}
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({super.key, required this.title});
+//
+//   final String title;
+//
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
+//
+// class _MyHomePageState extends State<MyHomePage> {
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+//         title: const Text("Doctory"),
+//       ),
+//       body: Container(color: Colors.orange, height: 150, width: 120,),
+//     );
+//   }
+//}

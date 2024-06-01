@@ -5,8 +5,9 @@ import 'package:doctory/Features/authentication/domain/entities/userCredentials.
 import 'package:doctory/Features/authentication/domain/repositiories/user_credentials_repo.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
+import 'package:injectable/injectable.dart';
 
-
+@LazySingleton(as: UserCredentialsRepo)
 class UserCredentialsImpl implements UserCredentialsRepo
 {
   final AuthRemoteSource remoteSource;
