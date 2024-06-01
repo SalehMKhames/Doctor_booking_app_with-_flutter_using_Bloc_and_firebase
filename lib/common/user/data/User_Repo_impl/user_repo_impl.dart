@@ -5,7 +5,9 @@ import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/common/user/domain/repository/user_repo.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable(as: UserRepo)
 class UserRepoImpl extends UserRepo
 {
   final UserRemotedatasource userRemotedatasource;
