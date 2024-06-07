@@ -47,7 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     final result = await registerUsecase.execute(userCredential);
     
     result.fold(
-      (fail) => emit(state.copyWith(userRegister: UserAuthStatus.failed, message: RegisterSuccess)),
+      (fail) => emit(state.copyWith(userRegister: UserAuthStatus.failed, /*message: RegisterSuccess*/)),
       (credentials) => emit(state.copyWith(cred: credentials, userRegister: UserAuthStatus.success)),
     );
   }

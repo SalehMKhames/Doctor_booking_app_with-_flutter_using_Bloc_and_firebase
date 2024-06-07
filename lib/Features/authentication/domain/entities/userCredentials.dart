@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable()
 class UserCredentials extends Equatable
 {
   final String email;

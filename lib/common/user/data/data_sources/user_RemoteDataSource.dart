@@ -7,7 +7,7 @@ import 'package:doctory/core/utils/Strings.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-@Injectable()
+@LazySingleton()
 class UserRemotedatasource
 {
   http.Client client;

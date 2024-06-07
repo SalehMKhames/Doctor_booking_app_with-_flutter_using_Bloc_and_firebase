@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:doctory/Features/authentication/data/Data%20sources/auth_LocalDataSource.dart';
 import 'package:doctory/Features/authentication/data/Data%20sources/auth_RemoteDataSource.dart';
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
 import 'package:doctory/Features/authentication/domain/repositiories/user_credentials_repo.dart';
@@ -11,9 +10,8 @@ import 'package:injectable/injectable.dart';
 class UserCredentialsImpl implements UserCredentialsRepo
 {
   final AuthRemoteSource remoteSource;
-  final AuthLocalSource localSource;
 
-  UserCredentialsImpl({required this.remoteSource, required this.localSource});
+  UserCredentialsImpl({required this.remoteSource,});
 
   @override
   Future<Either<Failure, UserCredentials>> userRegister(String email, String password) async
@@ -21,7 +19,7 @@ class UserCredentialsImpl implements UserCredentialsRepo
     try
     {
       final result = await remoteSource.register(email, password);
-      await localSource.cachingUserCredentials("User", result);
+      // await localSource.cachingUserCredentials("User", result);
 
       return Right(result);
     }
@@ -43,7 +41,7 @@ class UserCredentialsImpl implements UserCredentialsRepo
     try
     {
       final result = await remoteSource.logIn(email, password);
-      await localSource.cachingUserCredentials("User", result);
+      // await localSource.cachingUserCredentials("User", result);
 
       return Right(result);
     }

@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable()
 class User extends Equatable
 {
   final String id;
@@ -10,10 +10,9 @@ class User extends Equatable
 
   final DateTime? birthDate;
   final String? phone;
-  final File? photo;
   final String? medicalStatus;
 
-  const User({required this.id, required this.firstName, required this.lastName, this.birthDate, this.phone, this.photo, this.medicalStatus});
+  const User({required this.id, required this.firstName, required this.lastName, this.birthDate, this.phone, this.medicalStatus});
 
   User copyWith({ String? iden, String? firstName, String? lastName, String? email, String? pass, DateTime? birth, String? phone, String? Status})
   {
@@ -37,7 +36,6 @@ class User extends Equatable
         lastName: jsonMap['last_Name'] as String,
         birthDate: jsonMap['birthDate'] as DateTime,
         phone: jsonMap['phone_Number'] as String,
-        photo: jsonMap['ProfilePic'] as File,
         medicalStatus: jsonMap['MedicalStatus'] as String
     );
   }
@@ -51,7 +49,6 @@ class User extends Equatable
       'last_Name': lastName,
       'birthDate': birthDate,
       'phone_Number': phone,
-      'ProfilePic': photo,
       'MedicalStatus': medicalStatus,
     };
   }
@@ -64,7 +61,6 @@ class User extends Equatable
         lastName,
         birthDate,
         phone,
-        photo,
         medicalStatus
       ];
 }

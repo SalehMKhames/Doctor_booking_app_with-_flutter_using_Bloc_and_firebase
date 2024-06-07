@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
-import 'core/Depend_injection/dependency_injection.dart' as di;
 
 
 void main() async
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme().themData,
-        home: const RegisterScreen(),
+        home: RegisterScreen(),
       ),
     );
   }
