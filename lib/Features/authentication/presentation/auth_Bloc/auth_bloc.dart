@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:doctory/common/user/domain/entity/user.dart';
-import 'package:doctory/core/utils/Strings.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
@@ -18,16 +17,12 @@ part 'auth_state.dart';
 @Injectable()
 class AuthBloc extends Bloc<AuthEvent, AuthState>
 {
-  final User user;
-  final UserCredentials userCredential;
   final RegisterUsecase registerUsecase;
   final LoginUsecase loginUsecase;
   final ResetPasswordUsecase resetPasswordUsecase;
   final DeleteUsecase deleteUsecase;
 
   AuthBloc(
-      this.user,
-      this.userCredential,
       this.registerUsecase,
       this.loginUsecase,
       this.resetPasswordUsecase,
@@ -44,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   FutureOr<void> _signup(SignUpEvent event, Emitter<AuthState> emit) async
   {
     emit(state.copyWith(userRegister: UserAuthStatus.loading));
-    final result = await registerUsecase.execute(userCredential);
+    final result = await registerUsecase.execute(event.email, event.password);
     
     result.fold(
       (fail) => emit(state.copyWith(userRegister: UserAuthStatus.failed, /*message: RegisterSuccess*/)),
@@ -55,7 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   FutureOr<void> _login(LogInEvent event, Emitter<AuthState> emit) async
   {
     emit(state.copyWith(userLogIn: UserAuthStatus.loading));
-    final result = await loginUsecase.execute(userCredential);
+    final result = await loginUsecase.execute(event.email, event.password);
 
     result.fold
     (
@@ -67,7 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   FutureOr<void> _delete(DeleteEvent event, Emitter<AuthState> emit) async
   {
     emit(state.copyWith(userDelete: UserAuthStatus.loading));
-    final result = await deleteUsecase.execute(user);
+    final result = await deleteUsecase.execute(event.id);
 
     result.fold
     (
@@ -79,7 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   FutureOr<void> _resetpassword(ResetPasswordEvent event, Emitter<AuthState> emit) async
   {
     emit(state.copyWith(userResetPassword: UserAuthStatus.loading));
-    final result = await resetPasswordUsecase.execute(userCredential);
+    final result = await resetPasswordUsecase.execute(event.id, event.newPassword);
 
     result.fold
     (

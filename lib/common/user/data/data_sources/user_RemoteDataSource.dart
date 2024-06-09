@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:doctory/common/user/data/Model/UserModel.dart';
 import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/utils/Strings.dart';
@@ -14,7 +15,7 @@ class UserRemotedatasource
 
   UserRemotedatasource({required this.client});
 
-  Future<Unit> uploadData(User user) async
+  Future<Unit> uploadData(UserModel user) async
   {
     final response = await http.post(
         Uri.parse("$DataBaseURL/Users"),
@@ -43,7 +44,7 @@ class UserRemotedatasource
 
     if (response.statusCode == 200) {
        final data = json.decode(response.body);
-       final User userData = User.fromJson(data);
+       final User userData = UserModel .fromJson(data);
 
        return userData;
     }

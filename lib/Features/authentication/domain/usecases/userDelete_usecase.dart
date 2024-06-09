@@ -12,5 +12,5 @@ class DeleteUsecase
 
   DeleteUsecase({required this.userRepo});
 
-  Future<Either<Failure, Unit>> execute(User user) async => await userRepo.userDelete(user.id);
+  Future<Either<Failure, Unit>> execute(String id) async => await userRepo.userDelete(id);
 }

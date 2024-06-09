@@ -12,5 +12,6 @@ class RegisterUsecase
 
   RegisterUsecase({required this.userRepo});
 
-  Future<Either<Failure, UserCredentials>> execute(UserCredentials user) async => await userRepo.userRegister(user.email, user.password);
+  Future<Either<Failure, UserCredentials>> execute(String email, String password) async
+    => await userRepo.userRegister(email, password);
 }

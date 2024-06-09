@@ -12,5 +12,6 @@ class LoginUsecase
 
   LoginUsecase({required this.userRepo});
 
-  Future<Either<Failure, UserCredentials>> execute(UserCredentials user) async => await userRepo.userLogin(user.email, user.password);
+  Future<Either<Failure, UserCredentials>> execute(String email, String password) async
+    => await userRepo.userLogin(email, password);
 }

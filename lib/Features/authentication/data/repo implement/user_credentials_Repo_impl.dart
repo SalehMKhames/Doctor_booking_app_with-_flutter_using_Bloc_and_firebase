@@ -19,8 +19,6 @@ class UserCredentialsImpl implements UserCredentialsRepo
     try
     {
       final result = await remoteSource.register(email, password);
-      // await localSource.cachingUserCredentials("User", result);
-
       return Right(result);
     }
     on ServerException {
@@ -41,8 +39,6 @@ class UserCredentialsImpl implements UserCredentialsRepo
     try
     {
       final result = await remoteSource.logIn(email, password);
-      // await localSource.cachingUserCredentials("User", result);
-
       return Right(result);
     }
     on ServerException {

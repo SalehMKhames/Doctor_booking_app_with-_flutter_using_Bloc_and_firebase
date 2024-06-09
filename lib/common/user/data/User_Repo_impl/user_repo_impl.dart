@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:doctory/common/user/data/Model/UserModel.dart';
 import 'package:doctory/common/user/data/data_sources/user_LocalDataSource.dart';
 import 'package:doctory/common/user/data/data_sources/user_RemoteDataSource.dart';
 import 'package:doctory/common/user/domain/entity/user.dart';
@@ -16,14 +17,15 @@ class UserRepoImpl extends UserRepo
   UserRepoImpl({required super.user, required this.userRemotedatasource, required this.userLocalSource});
 
   @override
-  Future<Either<Failure, User>> getUserData(String id) async
+  Future<Either<Failure, UserModel>> getUserData(String id) async
   {
     try{
       final result = await userRemotedatasource.getUserData(id);
-      await userLocalSource.cachingUser("User_info", user);
+      await userLocalSource.cachingUser("User_info", result);
 
       return right(result);
-    }on ServerException {
+    }
+    on ServerException {
       return Left(ServerFailure());
     }
     on UnauthorizedException {

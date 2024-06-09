@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable()
 class UserCredentials extends Equatable
 {
   final String email;
@@ -15,20 +14,6 @@ class UserCredentials extends Equatable
   UserCredentials copyWith(String? email, String? Password)
   {
     return UserCredentials(email: email ?? this.email, password: Password ?? password);
-  }
-
-  factory UserCredentials.fromJson(Map<String, dynamic> credentialsMap)
-  {
-    return UserCredentials
-    (
-      email: credentialsMap['email'],
-      password: credentialsMap['password'],
-    );
-  }
-
-  Map<String, dynamic> toJson()
-  {
-    return {'email' : email, 'password' : password};
   }
 
 }

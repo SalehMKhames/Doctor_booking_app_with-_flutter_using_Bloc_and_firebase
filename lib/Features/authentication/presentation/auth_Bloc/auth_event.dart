@@ -28,11 +28,12 @@ class SignUpEvent extends AuthEvent
 class ResetPasswordEvent extends AuthEvent
 {
   final String id;
+  final String newPassword;
 
-  const ResetPasswordEvent({required this.id});
+  const ResetPasswordEvent({required this.id, required this.newPassword});
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, newPassword];
 }
 
 class DeleteEvent extends AuthEvent
@@ -40,16 +41,6 @@ class DeleteEvent extends AuthEvent
   final String id;
 
   const DeleteEvent({required this.id});
-
-  @override
-  List<Object?> get props => [id];
-}
-
-class GetInfoEvent extends AuthEvent
-{
-  final String id;
-
-  const GetInfoEvent ({required this.id});
 
   @override
   List<Object?> get props => [id];

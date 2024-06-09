@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:doctory/common/user/data/Model/UserModel.dart';
 
 import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
@@ -12,7 +13,7 @@ class UserLocalSource
 
   UserLocalSource({required this.sharedPreferences});
 
-  Future<Unit> cachingUser(String keyName, User user) async
+  Future<Unit> cachingUser(String keyName, UserModel user) async
   {
     final cachedUserInfo = user.toJson();
     await sharedPreferences.setString(keyName, json.encode(cachedUserInfo));
@@ -24,7 +25,7 @@ class UserLocalSource
     final userInfo = sharedPreferences.getString(keyName);
 
     if(userInfo != null) {
-      return User.fromJson(json.decode(userInfo));
+      return UserModel.fromJson(json.decode(userInfo));
     }
     else{
       throw EmptyCacheException("There is No information about your credentials now, connect to the internet and try later");
