@@ -21,14 +21,14 @@ class UserCredentialsImpl implements UserCredentialsRepo
       final result = await remoteSource.register(email, password);
       return Right(result);
     }
-    on ServerException {
-      return Left(ServerFailure());
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
     }
-    on UnauthorizedException {
-      return left(UnauthorizedFailure());
+    on UnauthorizedException catch(e){
+      return left(UnauthorizedFailure(Message: e.message));
     }
-    on BadRequestException {
-      return left(BadRequestFailure());
+    on BadRequestException catch(e){
+      return left(BadRequestFailure(Message: e.message));
     }
 
   }
@@ -41,14 +41,14 @@ class UserCredentialsImpl implements UserCredentialsRepo
       final result = await remoteSource.logIn(email, password);
       return Right(result);
     }
-    on ServerException {
-      return Left(ServerFailure());
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
     }
-    on UnauthorizedException {
-      return left(UnauthorizedFailure());
+    on UnauthorizedException catch(e){
+      return left(UnauthorizedFailure(Message: e.message));
     }
-    on BadRequestException {
-      return left(BadRequestFailure());
+    on BadRequestException catch(e){
+      return left(BadRequestFailure(Message: e.message));
     }
   }
 
@@ -59,14 +59,14 @@ class UserCredentialsImpl implements UserCredentialsRepo
       final result = await remoteSource.deleteAccount(id);
       return Right(result);
     }
-    on ServerException {
-      return Left(ServerFailure());
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
     }
-    on UnauthorizedException {
-      return left(UnauthorizedFailure());
+    on UnauthorizedException catch(e){
+      return left(UnauthorizedFailure(Message: e.message));
     }
-    on BadRequestException {
-      return left(BadRequestFailure());
+    on BadRequestException catch(e){
+      return left(BadRequestFailure(Message: e.message));
     }
   }
 
@@ -77,14 +77,14 @@ class UserCredentialsImpl implements UserCredentialsRepo
       final result = await remoteSource.resetPassword(id, newPassword);
       return Right(result);
     }
-    on ServerException {
-      return Left(ServerFailure());
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
     }
-    on UnauthorizedException {
-      return left(UnauthorizedFailure());
+    on UnauthorizedException catch(e){
+      return left(UnauthorizedFailure(Message: e.message));
     }
-    on BadRequestException {
-      return left(BadRequestFailure());
+    on BadRequestException catch(e){
+      return left(BadRequestFailure(Message: e.message));
     }
   }
 }

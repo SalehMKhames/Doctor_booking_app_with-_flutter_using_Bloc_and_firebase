@@ -38,13 +38,13 @@ class UserRemotedatasource
 
   }
 
-  Future<User> getUserData(String id) async
+  Future<UserModel> getUserData(String id) async
   {
     final response = await client.get("$DataBaseURL/Users/$id" as Uri,);
 
     if (response.statusCode == 200) {
        final data = json.decode(response.body);
-       final User userData = UserModel .fromJson(data);
+       final UserModel userData = UserModel.fromJson(data);
 
        return userData;
     }

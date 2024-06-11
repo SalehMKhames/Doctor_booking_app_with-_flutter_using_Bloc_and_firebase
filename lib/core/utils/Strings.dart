@@ -9,10 +9,10 @@ const String GetUserURL = "$BaseURL/accounts:lookup?key=$API_KEY";
 
 const String DataBaseURL ="https://doctory-app-38c91-default-rtdb.europe-west1.firebasedatabase.app/";
 
-const  AddUserSuccess='The  User have been added Successfully';
-const  DeleteUserSuccess='The  User have been deleted Successfully';
-const  UpdateUserSuccess='The  User have been changed Successfully';
+const String ResetPasswordSuccess='Your password changed successfully';
+const String LogInSuccess='It\'s done, you just logged in';
+const String RegisterSuccess='Your account has beent added successfully';
+const String LogOut_Success='You just logged out from your account';
+const String DeleteUserSuccess='Your account had been deleted successfully';
 
-const  LogInSuccess='LogIn have done Successfully';
-const  RegisterSuccess='Register have done Successfully';
-const  LogOut_Success='LogOut Have been Completed Successfully';
+const String failure = "Something went wrong, please try again in few moments!";

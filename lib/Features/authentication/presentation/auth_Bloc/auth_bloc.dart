@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:doctory/common/user/domain/entity/user.dart';
+import 'package:doctory/core/utils/Strings.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
@@ -42,8 +43,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     final result = await registerUsecase.execute(event.email, event.password);
     
     result.fold(
-      (fail) => emit(state.copyWith(userRegister: UserAuthStatus.failed, /*message: RegisterSuccess*/)),
-      (credentials) => emit(state.copyWith(cred: credentials, userRegister: UserAuthStatus.success)),
+      (fail) => emit(state.copyWith(userRegister: UserAuthStatus.failed, message: failure)),
+      (credentials) => emit(state.copyWith(cred: credentials, userRegister: UserAuthStatus.success, message: RegisterSuccess)),
     );
   }
 
@@ -54,8 +55,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
 
     result.fold
     (
-      (fail) => emit(state.copyWith(userLogIn: UserAuthStatus.failed)),
-      (credentials) => emit(state.copyWith(cred: credentials, userLogIn: UserAuthStatus.success)),
+      (fail) => emit(state.copyWith(userLogIn: UserAuthStatus.failed, message: failure)),
+      (credentials) => emit(state.copyWith(cred: credentials, userLogIn: UserAuthStatus.success, message: LogInSuccess)),
     );
   }
 
@@ -66,8 +67,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
 
     result.fold
     (
-       (fail) => emit(state.copyWith(userDelete: UserAuthStatus.failed)),
-       (succ) => emit(state.copyWith(userDelete: UserAuthStatus.success))
+       (fail) => emit(state.copyWith(userDelete: UserAuthStatus.failed, message: failure)),
+       (succ) => emit(state.copyWith(userDelete: UserAuthStatus.success, message: DeleteUserSuccess))
     );
   }
 
@@ -78,8 +79,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
 
     result.fold
     (
-      (fail) => emit(state.copyWith(userResetPassword: UserAuthStatus.failed)),
-      (succ) => emit(state.copyWith(userResetPassword: UserAuthStatus.success))
+      (fail) => emit(state.copyWith(userResetPassword: UserAuthStatus.failed, message: failure)),
+      (succ) => emit(state.copyWith(userResetPassword: UserAuthStatus.success, message: ResetPasswordSuccess))
     );
   }
 

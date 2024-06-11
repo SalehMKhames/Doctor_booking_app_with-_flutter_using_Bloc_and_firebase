@@ -24,15 +24,14 @@ class UserRepoImpl extends UserRepo
       await userLocalSource.cachingUser("User_info", result);
 
       return right(result);
+    }on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
     }
-    on ServerException {
-      return Left(ServerFailure());
+    on UnauthorizedException catch(e){
+      return left(UnauthorizedFailure(Message: e.message));
     }
-    on UnauthorizedException {
-      return left(UnauthorizedFailure());
-    }
-    on BadRequestException {
-      return left(BadRequestFailure());
+    on BadRequestException catch(e){
+      return left(BadRequestFailure(Message: e.message));
     }
   }
 
@@ -40,18 +39,17 @@ class UserRepoImpl extends UserRepo
   Future<Either<Failure, Unit>> uploadUserData(User userdata) async
   {
     try{
-      final result = await userRemotedatasource.uploadData(userdata);
+      final result = await userRemotedatasource.uploadData(userdata as UserModel);
       return Right(result);
     }
-    on ServerException {
-      return Left(ServerFailure());
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
     }
-    on UnauthorizedException {
-      return left(UnauthorizedFailure());
+    on UnauthorizedException catch(e){
+      return left(UnauthorizedFailure(Message: e.message));
     }
-    on BadRequestException {
-      return left(BadRequestFailure());
+    on BadRequestException catch(e){
+      return left(BadRequestFailure(Message: e.message));
     }
   }
-
 }
