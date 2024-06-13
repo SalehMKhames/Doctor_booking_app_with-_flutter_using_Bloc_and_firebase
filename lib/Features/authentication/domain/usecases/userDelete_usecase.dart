@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:injectable/injectable.dart';
 
 import "../repositiories/user_credentials_repo.dart";

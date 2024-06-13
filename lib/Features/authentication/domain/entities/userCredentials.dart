@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
+
 
 class UserCredentials extends Equatable
 {

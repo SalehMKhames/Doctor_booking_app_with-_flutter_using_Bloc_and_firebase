@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:doctory/common/user/data/Model/UserModel.dart';
-import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/utils/Strings.dart';
 import 'package:http/http.dart' as http;
