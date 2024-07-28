@@ -7,12 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/utils/Strings.dart';
 import 'package:injectable/injectable.dart';
-import 'package:uuid/v4.dart';
 
 @Injectable()
 class AuthRemoteSource
 {
-  UuidV4 id = const UuidV4();
+  late final String id;
   final http.Client client;
 
   AuthRemoteSource({required this.client,});
@@ -27,6 +26,7 @@ class AuthRemoteSource
       if (res.statusCode == 200) //on success
       {
         final userDetails = CredentialsModel.fromJson(await json.decode(res.body));
+        id = userDetails.localId;
         return userDetails;
       }
       else if(res.statusCode == 400) //on bad request
@@ -37,7 +37,9 @@ class AuthRemoteSource
       {
          throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
       }
-      else { throw ServerException("Sorry, there is some error we're trying to fix it");}
+      else {
+        throw ServerException("Sorry, there is some error we're trying to fix it");
+      }
   }
 
 
