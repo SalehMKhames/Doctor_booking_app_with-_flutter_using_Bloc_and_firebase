@@ -7,10 +7,12 @@ import 'package:http/http.dart' as http;
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/utils/Strings.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/v4.dart';
 
 @Injectable()
 class AuthRemoteSource
 {
+  UuidV4 id = const UuidV4();
   final http.Client client;
 
   AuthRemoteSource({required this.client,});
@@ -101,6 +103,36 @@ class AuthRemoteSource
       throw BadRequestException("Sorry, We can't delete your account now. Please try again");
     }
     else { throw ServerException("Sorry, there is some error we're trying to fix it");}
+  }
+
+  Future<Unit> uploadData(String name, String email, String birthDate, String phone, String medicalStatus) async
+  {
+    final response = await http.put(
+      Uri.parse("$DataBaseURL/$id/"),
+      body:
+        jsonEncode({
+          'name': name,
+          'Email': email,
+          'birth': birthDate,
+          'phone': phone,
+          'status': medicalStatus
+        }),
+    );
+
+    if(response.statusCode == 201) { //on Created status
+      return Future.value(unit);
+    }
+    else if(response.statusCode == 400) //on bad request
+        {
+      throw BadRequestException("Sorry, We can't get your data now. Please try again");
+    }
+    else if (response.statusCode == 401) // UnAuthorized
+        {
+      throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
+    }
+    else
+    { throw ServerException("Sorry, there is some error we're trying to fix it");}
+
   }
 
 }

@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:doctory/common/user/data/Model/UserModel.dart';
 import 'package:doctory/common/user/data/data_sources/user_LocalDataSource.dart';
 import 'package:doctory/common/user/data/data_sources/user_RemoteDataSource.dart';
-import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/common/user/domain/repository/user_repo.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
@@ -14,7 +13,7 @@ class UserRepoImpl extends UserRepo
   final UserRemotedatasource userRemotedatasource;
   final UserLocalSource userLocalSource;
 
-  UserRepoImpl({required super.user, required this.userRemotedatasource, required this.userLocalSource});
+  UserRepoImpl({required this.userRemotedatasource, required this.userLocalSource});
 
   @override
   Future<Either<Failure, UserModel>> getUserData(String id) async
@@ -36,10 +35,10 @@ class UserRepoImpl extends UserRepo
   }
 
   @override
-  Future<Either<Failure, Unit>> uploadUserData(User userdata) async
+  Future<Either<Failure, Unit>> editUserData(String id) async
   {
     try{
-      final result = await userRemotedatasource.uploadData(userdata as UserModel);
+      final result = await userRemotedatasource.editUserData(id);
       return Right(result);
     }
     on ServerException catch(e){

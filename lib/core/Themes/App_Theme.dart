@@ -85,7 +85,7 @@ class AppTheme
   {
     return FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        foregroundColor: Colors.white,
+        foregroundColor: Color(0xffb6c2ff),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
     );

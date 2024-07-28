@@ -5,8 +5,10 @@ import 'package:doctory/common/user/data/Model/UserModel.dart';
 
 import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+@LazySingleton()
 class UserLocalSource
 {
   final SharedPreferences sharedPreferences;
@@ -22,10 +24,10 @@ class UserLocalSource
 
   Future<User> getCachedUser(String keyName) async
   {
-    final userInfo = sharedPreferences.getString(keyName);
+    final userKey = sharedPreferences.getString(keyName);
 
-    if(userInfo != null) {
-      return UserModel.fromJson(json.decode(userInfo));
+    if(userKey != null) {
+      return UserModel.fromJson(json.decode(userKey));
     }
     else{
       throw EmptyCacheException("There is No information about your credentials now, connect to the internet and try later");

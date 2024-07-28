@@ -1,31 +1,30 @@
 import 'package:equatable/equatable.dart';
+import 'package:uuid/v4.dart';
 
 class User extends Equatable
 {
-  final String id;
-  final String firstName;
-  final String lastName;
-  final DateTime? birthDate;
+  final UuidV4 id;
+  final String Name;
+  final String email;
+  final String? birthDate;
   final String? phone;
   final String? medicalStatus;
 
-  const User({required this.id, required this.firstName, required this.lastName, this.birthDate, this.phone, this.medicalStatus});
+  const User({required this.id, required this.Name, required this.email, this.birthDate, this.phone, this.medicalStatus});
 
   User copyWith({
-    String? iden,
-    String? firstName,
-    String? lastName,
+    UuidV4? iden,
+    String? Name,
     String? email,
-    String? pass,
-    DateTime? birth,
+    String? birth,
     String? phone,
     String? Status
   })
   {
     return User(
         id: iden ?? id,
-        firstName: firstName ?? this.firstName,
-        lastName: lastName ?? this.lastName,
+        Name: Name ?? this.Name,
+        email: email ?? this.email,
         birthDate: birth ?? birthDate,
         phone: phone ?? this.phone,
         medicalStatus: Status ?? medicalStatus
@@ -36,8 +35,8 @@ class User extends Equatable
   List<Object?> get props =>
       [
         id,
-        firstName,
-        lastName,
+        Name,
+        email,
         birthDate,
         phone,
         medicalStatus

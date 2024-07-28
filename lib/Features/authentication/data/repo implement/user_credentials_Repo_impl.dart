@@ -87,4 +87,24 @@ class UserCredentialsImpl implements UserCredentialsRepo
       return left(BadRequestFailure(Message: e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> userUploadData(
+      String name, String email, String birthDate, String phone, String medicalStatus)
+  async
+  {
+    try{
+      final result = await remoteSource.uploadData(name, email, birthDate, phone, medicalStatus);
+      return Right(result);
+    }
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
+    }
+    on UnauthorizedException catch(e){
+      return left(UnauthorizedFailure(Message: e.message));
+    }
+    on BadRequestException catch(e){
+      return left(BadRequestFailure(Message: e.message));
+    }
+  }
 }

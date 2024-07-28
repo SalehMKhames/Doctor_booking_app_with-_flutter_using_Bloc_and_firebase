@@ -1,11 +1,12 @@
 import 'package:doctory/common/user/domain/entity/user.dart';
+import 'package:uuid/v4.dart';
 
 class UserModel extends User
 {
   const UserModel({
     required super.id,
-    required super.firstName,
-    required super.lastName,
+    required super.Name,
+    required super.email,
     required super.birthDate,
     required super.phone,
     required super.medicalStatus
@@ -16,10 +17,10 @@ class UserModel extends User
   {
     return UserModel
     (
-      id: jsonMap['id'] as String,
-      firstName: jsonMap['first_Name'] as String,
-      lastName: jsonMap['last_Name'] as String,
-      birthDate: jsonMap['birthDate'] as DateTime,
+      id: jsonMap['id'] as UuidV4,
+      Name: jsonMap['Name'] as String,
+      email:  jsonMap["Email"] as String,
+      birthDate: jsonMap['birthDate'] as String,
       phone: jsonMap['phone_Number'] as String,
       medicalStatus: jsonMap['MedicalStatus'] as String
     );
@@ -30,8 +31,8 @@ class UserModel extends User
   {
   return {
   'id': id,
-  'first_Name': firstName,
-  'last_Name': lastName,
+  'Name': Name,
+  'Email' : email,
   'birthDate': birthDate,
   'phone_Number': phone,
   'MedicalStatus': medicalStatus,

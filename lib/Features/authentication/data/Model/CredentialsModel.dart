@@ -2,19 +2,20 @@ import 'package:doctory/Features/authentication/domain/entities/userCredentials.
 
 class CredentialsModel extends UserCredentials
 {
-  const CredentialsModel({required email, required password}) : super(email: email, password: password);
+
+  const CredentialsModel({required email, required token}) : super(email: email, token: token);
 
   factory CredentialsModel.fromJson(Map<String, dynamic> credentialsMap)
   {
     return CredentialsModel
       (
-      email: credentialsMap['email'],
-      password: credentialsMap['password'],
+      email: credentialsMap['email'] as String,
+      token: credentialsMap['idToken'] as String,
     );
   }
 
   Map<String, dynamic> toJson()
   {
-    return {'email' : email, 'password' : password};
+    return {'email' : email, 'idToken' : token};
   }
 }

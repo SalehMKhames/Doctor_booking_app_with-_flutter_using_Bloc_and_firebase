@@ -45,3 +45,26 @@ class DeleteEvent extends AuthEvent
   @override
   List<Object?> get props => [id];
 }
+
+class UserUploadEvent extends AuthEvent
+{
+  final String name;
+  final String email;
+  final String birth;
+  final String phone;
+  final String medicalStatus;
+
+
+  const UserUploadEvent(
+      {
+        required this.name,
+        required this.email,
+        required this.birth,
+        required this.phone,
+        required this.medicalStatus
+      }
+  );
+
+  @override
+  List<Object?> get props => [name, email, birth, phone, medicalStatus];
+}

@@ -4,11 +4,9 @@ import 'package:doctory/core/ErrorHandling/failure.dart';
 
 abstract class UserRepo
 {
-  final User user;
-
-  const UserRepo({required this.user});
-
-  Future<Either<Failure, Unit>> uploadUserData(User userdata);
+  const UserRepo();
 
   Future<Either<Failure, User>> getUserData(String id);
+
+  Future<Either<Failure, Unit>> editUserData(String id);
 }

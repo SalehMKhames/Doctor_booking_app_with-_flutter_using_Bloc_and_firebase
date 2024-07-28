@@ -12,6 +12,7 @@ import '../../domain/usecases/userRegister_usecase.dart';
 import '../../domain/usecases/userLogin_usecase.dart';
 import '../../domain/usecases/resetPassword_usecase.dart';
 import '../../domain/usecases/userDelete_usecase.dart';
+import '../../domain/usecases/UploadUserdata.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -23,18 +24,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   final LoginUsecase loginUsecase;
   final ResetPasswordUsecase resetPasswordUsecase;
   final DeleteUsecase deleteUsecase;
+  final Uploaduserdata uploadData;
 
   AuthBloc(
       this.registerUsecase,
       this.loginUsecase,
       this.resetPasswordUsecase,
       this.deleteUsecase,
+      this.uploadData
       ) : super(const AuthState())
   {
     on<LogInEvent>(_login);
     on<SignUpEvent>(_signup);
     on<DeleteEvent>(_delete);
     on<ResetPasswordEvent>(_resetpassword);
+    on<UserUploadEvent>(_uploadData);
   }
 
 
@@ -85,4 +89,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     );
   }
 
+  FutureOr<void> _uploadData(UserUploadEvent event, Emitter<AuthState> emit) async
+  {
+    emit(state.copyWith(userUploadInfo: UserAuthStatus.loading));
+    final result = await uploadData.execute(
+        event.name,
+        event.email,
+        event.birth,
+        event.phone,
+        event.medicalStatus
+    );
+
+    result.fold
+    (
+      (fail) => emit(state.copyWith(userUploadInfo: UserAuthStatus.failed, message: failure)),
+      (succ) => emit(state.copyWith(userUploadInfo: UserAuthStatus.success, message: uploadSuccess))
+    );
+  }
 }
