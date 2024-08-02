@@ -110,7 +110,7 @@ class AuthRemoteSource
   Future<Unit> uploadData(String name, String email, String birthDate, String phone, String medicalStatus) async
   {
     final response = await http.put(
-      Uri.parse("$DataBaseURL/$id/"),
+      Uri.parse("$DataBaseURL/$id"),
       body:
         jsonEncode({
           'name': name,
