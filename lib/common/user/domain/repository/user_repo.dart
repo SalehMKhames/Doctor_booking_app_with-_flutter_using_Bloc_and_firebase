@@ -8,5 +8,7 @@ abstract class UserRepo
 
   Future<Either<Failure, User>> getUserData(String id);
 
-  Future<Either<Failure, Unit>> editUserData(String id);
+  Future<Either<Failure, Unit>> editUserData(String id, String field, String value);
+
+  Future<Either<Failure, Unit>> deleteUserData(String id);
 }

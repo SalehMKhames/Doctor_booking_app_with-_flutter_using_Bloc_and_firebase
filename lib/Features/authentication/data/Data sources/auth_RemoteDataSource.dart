@@ -156,41 +156,13 @@ class AuthRemoteSource {
       throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
     }
     on UnauthorizedException{
-      throw const ServerFailure(Message: "Authentication failed. Please provide valid credentials.");
+      throw const UnauthorizedFailure(Message: "Authentication failed. Please provide valid credentials.");
     }
     on OfflineException{
-      throw const ServerFailure(Message: "You are without Internet connection. Please, try to connect.");
+      throw const OfflineFailure(Message: "You are without Internet connection. Please, try to connect.");
     }
     catch (err){
       throw Exception(err);
     }
-    // final String url = await getDatabaseURL();
-    //
-    // final response = await http.put(
-    //   Uri.parse(url),
-    //   body:
-    //     jsonEncode({
-    //       'name': name,
-    //       'Email': email,
-    //       'birth': birthDate,
-    //       'phone': phone,
-    //       'status': medicalStatus
-    //     }),
-    // );
-    //
-    // if(response.statusCode == 201) { //on Created status
-    //   return Future.value(unit);
-    // }
-    // else if(response.statusCode == 400) //on bad request
-    //     {
-    //   throw BadRequestException("Sorry, We can't get your data now. Please try again");
-    // }
-    // else if (response.statusCode == 401) // UnAuthorized
-    //     {
-    //   throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
-    // }
-    // else
-    // { throw ServerException("Sorry, there is some error we're trying to fix it");}
-
   }
 }

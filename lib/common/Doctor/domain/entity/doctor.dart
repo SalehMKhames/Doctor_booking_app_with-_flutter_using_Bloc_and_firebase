@@ -16,8 +16,7 @@ class Doctor extends Equatable {
   final List<DoctorPackage> package;
   final List<DoctorWorkingHours> workingHours;
   final double rating ;
-  final int reviewCount;
-  final int patientCount;
+
 
   const Doctor ({
     required this.id,
@@ -29,9 +28,6 @@ class Doctor extends Equatable {
     required this.package,
     required this.workingHours,
     this.rating =0.0,
-    this.reviewCount = 0,
-    this.patientCount = 0,
-
   });
 
   @override
@@ -45,8 +41,6 @@ class Doctor extends Equatable {
     address,
     package,
     rating,
-    reviewCount,
-    patientCount,
   ];
 
   static final sampleDoctors = [
@@ -60,8 +54,6 @@ class Doctor extends Equatable {
       package: DoctorPackage.samplePackages,
       workingHours: DoctorWorkingHours.sampleDoctorWorkingHours,
       rating: 4.5,
-      reviewCount: 100,
-      patientCount: 1000,
     ),
     Doctor(
       id: '2',
@@ -73,8 +65,6 @@ class Doctor extends Equatable {
       package: DoctorPackage.samplePackages,
       workingHours: DoctorWorkingHours.sampleDoctorWorkingHours,
       rating: 4.5,
-      reviewCount: 100,
-      patientCount: 1000,
     ),
 
   ];

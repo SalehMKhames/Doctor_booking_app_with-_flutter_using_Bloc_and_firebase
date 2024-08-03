@@ -9,7 +9,7 @@ enum ConsultationMode {
   audio(
     label: 'Audio',
     description: 'Online audio call',
-    icon: Icons.voice_chat,
+    icon: Icons.phone_outlined,
   ),
   chat(
     label: 'Chat',

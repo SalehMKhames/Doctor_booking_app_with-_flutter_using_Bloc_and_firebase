@@ -1,13 +1,10 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:doctory/common/user/data/Model/UserModel.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
-import 'package:doctory/core/utils/Strings.dart';
+import 'package:doctory/core/ErrorHandling/failure.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
-
-//TODO: change the requests from the http requests to FireStore requests
 
 @LazySingleton()
 class UserRemotedatasource {
@@ -15,42 +12,85 @@ class UserRemotedatasource {
 
   UserRemotedatasource({required this.client});
 
-  Future<UserModel> getUserData(String id) async {
-    final response = await client.get(
-      "$DataBaseURL/Users/$id" as Uri,
-    );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final UserModel userData = UserModel.fromJson(data);
+  Future<UserModel> getUserData(String id) async
+  {
+    try
+    {
+      final collectionRef = FirebaseFirestore.instance.collection('Users');
+      final docRef = collectionRef.doc(id);
+      final fireData = await docRef.get();
+      final userData = UserModel.fromJson(fireData as Map<String, dynamic>);
 
       return userData;
-    } else if (response.statusCode == 400) {
-      throw BadRequestException(
-          "Sorry, We can't get your data now. Please try again");
-    } else if (response.statusCode == 401) {
-      throw UnauthorizedException(
-          "Unfortunately, you don't have the permission to see this kind of data");
-    } else {
-      throw ServerException(
-          "Sorry, there is some error we're trying to fix it");
+    }
+    on ServerException{
+      throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");
+    }
+    on BadRequestException{
+      throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
+    }
+    on UnauthorizedException{
+      throw const UnauthorizedFailure(Message: "Authentication failed. Please provide valid credentials.");
+    }
+    on OfflineException{
+      throw const OfflineFailure(Message: "You are without Internet connection. Please, try to connect.");
+    }
+    catch (err){
+      throw Exception(err);
     }
   }
 
-  Future<Unit> editUserData(String id) async {
-    final response = await client.patch("$DataBaseURL/Users/$id" as Uri);
+  Future<Unit> editUserData(String id, String updatedField, String updatedValue) async
+  {
+    try
+    {
+      final collectionRef = FirebaseFirestore.instance.collection('Users');
+      final docRef = collectionRef.doc(id);
+      final fireData = await docRef.update({updatedField : updatedValue});
 
-    if (response.statusCode == 200) {
-      return Future.value(unit);
-    } else if (response.statusCode == 400) {
-      throw BadRequestException(
-          "Sorry, We can't get your data now. Please try again");
-    } else if (response.statusCode == 401) {
-      throw UnauthorizedException(
-          "Unfortunately, you don't have the permission to see this kind of data");
-    } else {
-      throw ServerException(
-          "Sorry, there is some error we're trying to fix it");
+      return unit;
+    }
+    on ServerException{
+      throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");
+    }
+    on BadRequestException{
+      throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
+    }
+    on UnauthorizedException{
+      throw const UnauthorizedFailure(Message: "Authentication failed. Please provide valid credentials.");
+    }
+    on OfflineException{
+      throw const OfflineFailure(Message: "You are without Internet connection. Please, try to connect.");
+    }
+    catch (err){
+      throw Exception(err);
+    }
+  }
+
+  Future<Unit> deleteUserData(String id) async
+  {
+    try
+    {
+      final collectionRef = FirebaseFirestore.instance.collection('Users');
+      final docRef = collectionRef.doc(id);
+      docRef.delete();
+
+      return unit;
+    }
+    on ServerException{
+      throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");
+    }
+    on BadRequestException{
+      throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
+    }
+    on UnauthorizedException{
+      throw const UnauthorizedFailure(Message: "Authentication failed. Please provide valid credentials.");
+    }
+    on OfflineException{
+      throw const OfflineFailure(Message: "You are without Internet connection. Please, try to connect.");
+    }
+    catch (err){
+      throw Exception(err);
     }
   }
 }

@@ -30,7 +30,7 @@ class UserLocalSource
       return UserModel.fromJson(json.decode(userKey));
     }
     else{
-      throw EmptyCacheException("There is No information about your credentials now, connect to the internet and try later");
+      throw EmptyCacheException("There is No information about you now, connect to the internet and try later");
     }
   }
 }

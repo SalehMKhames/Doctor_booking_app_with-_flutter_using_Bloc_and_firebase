@@ -35,10 +35,29 @@ class UserRepoImpl extends UserRepo
   }
 
   @override
-  Future<Either<Failure, Unit>> editUserData(String id) async
+  Future<Either<Failure, Unit>> editUserData(String id, String updateField, String updateValue) async
   {
     try{
-      final result = await userRemotedatasource.editUserData(id);
+      final result = await userRemotedatasource.editUserData(id, updateField, updateValue);
+      return Right(result);
+    }
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
+    }
+    on UnauthorizedException catch(e){
+      return left(UnauthorizedFailure(Message: e.message));
+    }
+    on BadRequestException catch(e){
+      return left(BadRequestFailure(Message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteUserData(String id) async
+  {
+    try{
+      final result = await userRemotedatasource.deleteUserData(id);
+      await userLocalSource.sharedPreferences.remove("User_info");
       return Right(result);
     }
     on ServerException catch(e){

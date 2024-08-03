@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 
-class DoctorAddress extends Equatable {
-  final String id;
-  final String doctorId;
+class DoctorAddress extends Equatable
+{
   final String streetAddress;
   final String streetNumber;
   final String city;
@@ -12,8 +11,6 @@ class DoctorAddress extends Equatable {
   final String postalCode;
 
   const DoctorAddress({
-    required this.id,
-    required this.doctorId,
     required this.streetAddress,
     required this.streetNumber,
     required this.city,
@@ -23,8 +20,6 @@ class DoctorAddress extends Equatable {
   });
 
   DoctorAddress copyWith({
-    String? id,
-    String? doctorId,
     String? streetAddress,
     String? streetNumber,
     String? city,
@@ -33,8 +28,6 @@ class DoctorAddress extends Equatable {
     String? postalCode, 
   }) {
     return DoctorAddress(
-      id: id ?? this.id,
-      doctorId: doctorId ?? this.doctorId,
       streetAddress: streetAddress ?? this.streetAddress, 
       streetNumber: streetNumber ?? this.streetNumber, 
       city: city ?? this.city,
@@ -46,8 +39,6 @@ class DoctorAddress extends Equatable {
   
   @override
   List<Object?> get props => [
-    id,
-    doctorId,
     streetAddress,
     streetNumber,
     city,
@@ -57,15 +48,13 @@ class DoctorAddress extends Equatable {
 
   static const sampleAddresses = [
     DoctorAddress(
-      id: '1',
-     doctorId: '1', 
       streetAddress: 'Al Maktoum Street',
-       streetNumber: '123', 
-       city: 'Dubai',
-        state: 'Dubai',
-         country: 'United Arab Emirates',
-          postalCode: '12345',
-          ),
+      streetNumber: '123',
+      city: 'Dubai',
+      state: 'Dubai',
+      country: 'United Arab Emirates',
+      postalCode: '12345',
+    ),
   ];
 
 }

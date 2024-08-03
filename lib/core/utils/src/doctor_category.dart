@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 
 enum DoctorCategory {
   anesthesiology(
-    
     name: 'Anesthesiology',
     icon: Icons.account_circle_outlined,
-
   ),
 
   cardiology(
     name: 'Cardiology',
     icon: Icons.favorite_border_outlined,
-
-
   ),
 
   dentist(
