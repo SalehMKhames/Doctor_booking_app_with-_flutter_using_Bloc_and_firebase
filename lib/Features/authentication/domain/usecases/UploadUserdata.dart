@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:doctory/Features/authentication/domain/repositiories/user_credentials_repo.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
 import 'package:injectable/injectable.dart';
-import 'package:uuid/v4.dart';
+
 
 @LazySingleton()
 class Uploaduserdata

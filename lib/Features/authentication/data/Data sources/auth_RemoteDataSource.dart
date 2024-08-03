@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:doctory/Features/authentication/data/Model/CredentialsModel.dart';
+import 'package:doctory/core/ErrorHandling/failure.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
@@ -9,8 +11,7 @@ import 'package:doctory/core/utils/Strings.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable()
-class AuthRemoteSource
-{
+class AuthRemoteSource {
   late final String id;
   final http.Client client;
 
@@ -18,123 +19,178 @@ class AuthRemoteSource
 
   Future<CredentialsModel> register(String email, String password) async
   {
-      final res = await client.post(
+    final res = await client.post(
         Uri.parse(SignUpURL),
-        body: json.encode({'email' : email, 'password' : password, 'returnSecureToken' : true})
-      );
+        body: json.encode(
+            {'email': email, 'password': password, 'returnSecureToken': true})
+    );
 
-      if (res.statusCode == 200) //on success
-      {
-        final userDetails = CredentialsModel.fromJson(await json.decode(res.body));
-        id = userDetails.localId;
-        return userDetails;
-      }
-      else if(res.statusCode == 400) //on bad request
-      {
-        throw BadRequestException("Sorry, We can't get your data now. Please try again");
-      }
-      else if (res.statusCode == 401) // UnAuthorized
-      {
-         throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
-      }
-      else {
-        throw ServerException("Sorry, there is some error we're trying to fix it");
-      }
+    if (res.statusCode == 200) //on success
+        {
+      final userDetails = CredentialsModel.fromJson(
+          await json.decode(res.body));
+      id = userDetails.localId;
+      return userDetails;
+    }
+    else if (res.statusCode == 400) //on bad request
+        {
+      throw BadRequestException(
+          "Sorry, We can't get your data now. Please try again");
+    }
+    else if (res.statusCode == 401) // UnAuthorized
+        {
+      throw UnauthorizedException(
+          "Unfortunately, you don't have the permission to see this kind of data");
+    }
+    else {
+      throw ServerException(
+          "Sorry, there is some error we're trying to fix it");
+    }
   }
 
 
-  Future<CredentialsModel> logIn (String email, String password) async
+  Future<CredentialsModel> logIn(String email, String password) async
   {
-      final res = await client.post(
+    final res = await client.post(
         Uri.parse(SignInURL),
-        body: json.encode({'email' : email, 'password' : password, 'returnSecureToken' : true})
-      );
+        body: json.encode(
+            {'email': email, 'password': password, 'returnSecureToken': true})
+    );
 
-      if (res.statusCode == 200) //on success
-          {
-        final data = await json.decode(res.body);
-        final userDetails = CredentialsModel.fromJson(data);
-        return userDetails;
-      }
-      else if(res.statusCode == 400) //on bad request
-          {
-        throw BadRequestException("Sorry, We can't get your data now. Please try again");
-      }
-      else if (res.statusCode == 401) // UnAuthorized
-          {
-        throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
-      }
-      else { throw ServerException("Sorry, there is some error we're trying to fix it");}
+    if (res.statusCode == 200) //on success
+        {
+      final data = await json.decode(res.body);
+      final userDetails = CredentialsModel.fromJson(data);
+      return userDetails;
+    }
+    else if (res.statusCode == 400) //on bad request
+        {
+      throw BadRequestException(
+          "Sorry, We can't get your data now. Please try again");
+    }
+    else if (res.statusCode == 401) // UnAuthorized
+        {
+      throw UnauthorizedException(
+          "Unfortunately, you don't have the permission to see this kind of data");
+    }
+    else {
+      throw ServerException(
+          "Sorry, there is some error we're trying to fix it");
+    }
   }
 
   Future<Unit> resetPassword(String userID, String newPassword) async
   {
     final response = await client.post(
-      Uri.parse(ChangingPassowrURL),
-      body: json.encode({'idToken' : userID, 'password' : newPassword, 'returnSecureToken' : true})
+        Uri.parse(ChangingPassowrURL),
+        body: json.encode({
+          'idToken': userID,
+          'password': newPassword,
+          'returnSecureToken': true
+        })
     );
 
     if (response.statusCode == 200) //on success
-    {
+        {
       return unit;
     }
-    else if(response.statusCode == 400) //on bad request
+    else if (response.statusCode == 400) //on bad request
         {
-      throw BadRequestException("Sorry, We can't get your data now. Please try again");
+      throw BadRequestException(
+          "Sorry, We can't get your data now. Please try again");
     }
     else if (response.statusCode == 401) // UnAuthorized
         {
-      throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
+      throw UnauthorizedException(
+          "Unfortunately, you don't have the permission to see this kind of data");
     }
-    else { throw ServerException("Sorry, there is some error we're trying to fix it");}
+    else {
+      throw ServerException(
+          "Sorry, there is some error we're trying to fix it");
+    }
   }
 
   Future<Unit> deleteAccount(String userID) async
   {
     final response = await client.post(
-      Uri.parse(DeleteUserURL),
-      body : json.encode({'idToken' : userID})
+        Uri.parse(DeleteUserURL),
+        body: json.encode({'idToken': userID})
     );
 
     if (response.statusCode == 200) //on success
         {
       return unit;
     }
-    else if(response.statusCode == 400) //on bad request
+    else if (response.statusCode == 400) //on bad request
         {
-      throw BadRequestException("Sorry, We can't delete your account now. Please try again");
+      throw BadRequestException(
+          "Sorry, We can't delete your account now. Please try again");
     }
-    else { throw ServerException("Sorry, there is some error we're trying to fix it");}
+    else {
+      throw ServerException(
+          "Sorry, there is some error we're trying to fix it");
+    }
   }
 
   Future<Unit> uploadData(String name, String email, String birthDate, String phone, String medicalStatus) async
   {
-    final response = await http.put(
-      Uri.parse("$DataBaseURL/$id"),
-      body:
-        jsonEncode({
-          'name': name,
-          'Email': email,
-          'birth': birthDate,
-          'phone': phone,
-          'status': medicalStatus
-        }),
-    );
+    final Map<String, dynamic> userData = {
+      'name': name,
+      'Email': email,
+      'birth': birthDate,
+      'phone': phone,
+      'status': medicalStatus
+    };
 
-    if(response.statusCode == 201) { //on Created status
-      return Future.value(unit);
+    try
+    {
+      final collectionRef = FirebaseFirestore.instance.collection('Users');
+      final docRef = collectionRef.doc(id);
+      docRef.set(userData);
+      return unit;
     }
-    else if(response.statusCode == 400) //on bad request
-        {
-      throw BadRequestException("Sorry, We can't get your data now. Please try again");
+    on ServerException{
+      throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");
     }
-    else if (response.statusCode == 401) // UnAuthorized
-        {
-      throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
+    on BadRequestException{
+      throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
     }
-    else
-    { throw ServerException("Sorry, there is some error we're trying to fix it");}
+    on UnauthorizedException{
+      throw const ServerFailure(Message: "Authentication failed. Please provide valid credentials.");
+    }
+    on OfflineException{
+      throw const ServerFailure(Message: "You are without Internet connection. Please, try to connect.");
+    }
+    catch (err){
+      throw Exception(err);
+    }
+    // final String url = await getDatabaseURL();
+    //
+    // final response = await http.put(
+    //   Uri.parse(url),
+    //   body:
+    //     jsonEncode({
+    //       'name': name,
+    //       'Email': email,
+    //       'birth': birthDate,
+    //       'phone': phone,
+    //       'status': medicalStatus
+    //     }),
+    // );
+    //
+    // if(response.statusCode == 201) { //on Created status
+    //   return Future.value(unit);
+    // }
+    // else if(response.statusCode == 400) //on bad request
+    //     {
+    //   throw BadRequestException("Sorry, We can't get your data now. Please try again");
+    // }
+    // else if (response.statusCode == 401) // UnAuthorized
+    //     {
+    //   throw UnauthorizedException("Unfortunately, you don't have the permission to see this kind of data");
+    // }
+    // else
+    // { throw ServerException("Sorry, there is some error we're trying to fix it");}
 
   }
-
 }

@@ -10,21 +10,21 @@ abstract class Failure extends Equatable
 }
 
 class ServerFailure extends Failure {
-  ServerFailure({required super.Message});
+  const ServerFailure({required super.Message});
 } //500
 
 class EmptyCacheFailure extends Failure {
-  EmptyCacheFailure({required super.Message});
+  const EmptyCacheFailure({required super.Message});
 }
 
 class OfflineFailure extends Failure {
-  OfflineFailure({required super.Message});
+  const OfflineFailure({required super.Message});
 }
 
 class BadRequestFailure extends Failure {
-  BadRequestFailure({required super.Message});
+  const BadRequestFailure({required super.Message});
 } //400
 
 class UnauthorizedFailure extends Failure {
-  UnauthorizedFailure({required super.Message});
+  const UnauthorizedFailure({required super.Message});
 } //401

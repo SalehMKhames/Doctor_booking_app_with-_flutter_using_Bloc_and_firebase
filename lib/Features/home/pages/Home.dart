@@ -24,7 +24,8 @@ class HomeView extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar
+      (
         toolbarHeight: 80,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,6 +80,7 @@ class HomeView extends StatelessWidget {
           ),
         ),
       ),
+
       body: const SingleChildScrollView(
         child: Column(
           children: [
@@ -104,7 +106,6 @@ class _NearbyDoctors extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Column(
       children: [
         SectionTitle(
