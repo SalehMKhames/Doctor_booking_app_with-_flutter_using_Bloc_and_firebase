@@ -35,4 +35,40 @@ class DoctorRepoImpl extends DoctorRepo
     }
   }
 
+  @override
+  Future<Either<Failure, List<Doctor>>> getAllDoctor() async
+  {
+    try{
+      final res = await remotedatasource.getAllDoctors();
+      return right(res);
+    }
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
+    }
+    on BadRequestException catch(e){
+      return Left(BadRequestFailure(Message: e.message));
+    }
+    on UnauthorizedException catch(e){
+      return Left(BadRequestFailure(Message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Doctor>> getDoctorByName(String name) async
+  {
+    try{
+      final res = await remotedatasource.getDoctorByName(name);
+      return right(res);
+    }
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
+    }
+    on BadRequestException catch(e){
+      return Left(BadRequestFailure(Message: e.message));
+    }
+    on UnauthorizedException catch(e){
+      return Left(BadRequestFailure(Message: e.message));
+    }
+  }
+
 }

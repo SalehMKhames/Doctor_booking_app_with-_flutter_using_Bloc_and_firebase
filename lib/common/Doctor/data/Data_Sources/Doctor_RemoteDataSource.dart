@@ -3,7 +3,9 @@ import 'package:doctory/common/Doctor/data/model/Doctor_model.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 
+@Injectable()
 class DoctorRemotedatasource
 {
   http.Client client;
@@ -16,6 +18,60 @@ class DoctorRemotedatasource
     {
       final collectionRef = FirebaseFirestore.instance.collection('Doctors');
       final docRef = collectionRef.doc(id);
+      final fireData = await docRef.get();
+      final userData = DoctorModel.fromJson(fireData as Map<String, dynamic>);
+
+      return userData;
+    }
+    on ServerException{
+      throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");
+    }
+    on BadRequestException{
+      throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
+    }
+    on UnauthorizedException{
+      throw const UnauthorizedFailure(Message: "Authentication failed. Please provide valid credentials.");
+    }
+    on OfflineException{
+      throw const OfflineFailure(Message: "You are without Internet connection. Please, try to connect.");
+    }
+    catch (err){
+      throw Exception(err);
+    }
+  }
+
+  Future<List<DoctorModel>> getAllDoctors() async
+  {
+    try
+    {
+      final collectionRef = FirebaseFirestore.instance.collection('Doctors');
+      final docsData = collectionRef.get() as List<DoctorModel>;
+
+      return docsData;
+    }
+    on ServerException{
+      throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");
+    }
+    on BadRequestException{
+      throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
+    }
+    on UnauthorizedException{
+      throw const UnauthorizedFailure(Message: "Authentication failed. Please provide valid credentials.");
+    }
+    on OfflineException{
+      throw const OfflineFailure(Message: "You are without Internet connection. Please, try to connect.");
+    }
+    catch (err){
+      throw Exception(err);
+    }
+  }
+
+  Future<DoctorModel> getDoctorByName(String name) async
+  {
+    try
+    {
+      final collectionRef = FirebaseFirestore.instance.collection('Doctors');
+      final docRef = collectionRef.where('Name' , isEqualTo: name);
       final fireData = await docRef.get();
       final userData = DoctorModel.fromJson(fireData as Map<String, dynamic>);
 

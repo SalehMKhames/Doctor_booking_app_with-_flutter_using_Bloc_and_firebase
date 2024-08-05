@@ -7,4 +7,8 @@ abstract class DoctorRepo
   const DoctorRepo();
 
   Future<Either<Failure, Doctor>> getDoctorData(String id);
+
+  Future<Either<Failure, List<Doctor>>> getAllDoctor();
+
+  Future<Either<Failure, Doctor>> getDoctorByName(String name);
 }

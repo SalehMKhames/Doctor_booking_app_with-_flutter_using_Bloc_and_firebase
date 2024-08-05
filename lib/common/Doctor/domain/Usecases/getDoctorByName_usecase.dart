@@ -5,11 +5,11 @@ import 'package:doctory/core/ErrorHandling/failure.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton()
-class Getdoctorusecase
+class GetdoctorbynameUsecase
 {
   DoctorRepo doctorRepo;
 
-  Getdoctorusecase({required this.doctorRepo});
+  GetdoctorbynameUsecase({required this.doctorRepo});
 
-  Future<Either<Failure, Doctor>> getDocData(String id) async => await doctorRepo.getDoctorData(id);
+  Future<Either<Failure, Doctor>> execute(String name) async => await doctorRepo.getDoctorData(name);
 }

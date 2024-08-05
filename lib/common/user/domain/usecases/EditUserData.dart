@@ -4,11 +4,11 @@ import 'package:doctory/core/ErrorHandling/failure.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton()
-class Edituserdata
+class EdituserdataUsecase
 {
   UserRepo userRepo;
 
-  Edituserdata({required this.userRepo});
+  EdituserdataUsecase({required this.userRepo});
 
   Future<Either<Failure, Unit>> execute(String id, String field, String value) async
   => await userRepo.editUserData(id, field, value);
