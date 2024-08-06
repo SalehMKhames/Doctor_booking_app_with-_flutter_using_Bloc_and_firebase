@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:doctory/common/Doctor/domain/entity/doctor.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../Doctor/domain/Usecases/getDoctor_usecase.dart';
 import '../../Doctor/domain/Usecases/getAllDoctors_usecase.dart';
@@ -11,6 +12,7 @@ import '../../Doctor/domain/Usecases/getDoctorByName_usecase.dart';
 part 'doctor_event.dart';
 part 'doctor_state.dart';
 
+@Injectable()
 class DoctorBloc extends Bloc<DoctorEvent, DoctorState>
 {
   final Getdoctorusecase getDoctor;

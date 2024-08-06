@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
 class UserCredentials extends Equatable
 {
   final String email;

@@ -14,6 +14,7 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i4;
 import 'package:uuid/v4.dart' as _i5;
 
+import '../../common/Doctor/BLOC/doctor_bloc.dart' as _i22;
 import '../../common/Doctor/data/Data_Sources/Doctor_LocalDataSource.dart'
     as _i7;
 import '../../common/Doctor/data/Data_Sources/Doctor_RemoteDataSource.dart'
@@ -25,13 +26,14 @@ import '../../common/Doctor/domain/Usecases/getAllDoctors_usecase.dart' as _i13;
 import '../../common/Doctor/domain/Usecases/getDoctor_usecase.dart' as _i15;
 import '../../common/Doctor/domain/Usecases/getDoctorByName_usecase.dart'
     as _i14;
+import '../../common/user/BLOC/user_bloc.dart' as _i30;
 import '../../common/user/data/data_sources/user_LocalDataSource.dart' as _i6;
 import '../../common/user/data/data_sources/user_RemoteDataSource.dart' as _i10;
-import '../../common/user/data/User_Repo_impl/user_repo_impl.dart' as _i24;
-import '../../common/user/domain/repository/user_repo.dart' as _i23;
-import '../../common/user/domain/usecases/DeleteUserData_Usecase.dart' as _i27;
-import '../../common/user/domain/usecases/EditUserData.dart' as _i25;
-import '../../common/user/domain/usecases/GetUserData.dart' as _i26;
+import '../../common/user/data/User_Repo_impl/user_repo_impl.dart' as _i25;
+import '../../common/user/domain/repository/user_repo.dart' as _i24;
+import '../../common/user/domain/usecases/DeleteUserData_Usecase.dart' as _i28;
+import '../../common/user/domain/usecases/EditUserData.dart' as _i26;
+import '../../common/user/domain/usecases/GetUserData.dart' as _i27;
 import '../../Features/authentication/data/Data%20sources/auth_RemoteDataSource.dart'
     as _i8;
 import '../../Features/authentication/data/repo%20implement/user_credentials_Repo_impl.dart'
@@ -41,7 +43,7 @@ import '../../Features/authentication/domain/repositiories/user_credentials_repo
 import '../../Features/authentication/domain/usecases/resetPassword_usecase.dart'
     as _i18;
 import '../../Features/authentication/domain/usecases/UploadUserdata.dart'
-    as _i22;
+    as _i23;
 import '../../Features/authentication/domain/usecases/userDelete_usecase.dart'
     as _i19;
 import '../../Features/authentication/domain/usecases/userLogin_usecase.dart'
@@ -49,8 +51,8 @@ import '../../Features/authentication/domain/usecases/userLogin_usecase.dart'
 import '../../Features/authentication/domain/usecases/userRegister_usecase.dart'
     as _i21;
 import '../../Features/authentication/presentation/auth_Bloc/auth_bloc.dart'
-    as _i28;
-import 'dependency_injection.dart' as _i29;
+    as _i29;
+import 'dependency_injection.dart' as _i31;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -102,31 +104,41 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i20.LoginUsecase(userRepo: gh<_i16.UserCredentialsRepo>()));
     gh.lazySingleton<_i21.RegisterUsecase>(
         () => _i21.RegisterUsecase(userRepo: gh<_i16.UserCredentialsRepo>()));
-    gh.lazySingleton<_i22.Uploaduserdata>(() =>
-        _i22.Uploaduserdata(userCredRepo: gh<_i16.UserCredentialsRepo>()));
-    gh.factoryAsync<_i23.UserRepo>(() async => _i24.UserRepoImpl(
+    gh.factoryAsync<_i22.DoctorBloc>(() async => _i22.DoctorBloc(
+          await getAsync<_i15.Getdoctorusecase>(),
+          await getAsync<_i13.GetalldoctorsUsecase>(),
+          await getAsync<_i14.GetdoctorbynameUsecase>(),
+        ));
+    gh.lazySingleton<_i23.Uploaduserdata>(() =>
+        _i23.Uploaduserdata(userCredRepo: gh<_i16.UserCredentialsRepo>()));
+    gh.factoryAsync<_i24.UserRepo>(() async => _i25.UserRepoImpl(
           userRemotedatasource: gh<_i10.UserRemotedatasource>(),
           userLocalSource: await getAsync<_i6.UserLocalSource>(),
         ));
-    gh.lazySingletonAsync<_i25.EdituserdataUsecase>(() async =>
-        _i25.EdituserdataUsecase(userRepo: await getAsync<_i23.UserRepo>()));
-    gh.lazySingletonAsync<_i26.GetuserdataUsecase>(() async =>
-        _i26.GetuserdataUsecase(userRepo: await getAsync<_i23.UserRepo>()));
-    gh.lazySingletonAsync<_i27.DeleteuserdataUsecase>(() async =>
-        _i27.DeleteuserdataUsecase(userRepo: await getAsync<_i23.UserRepo>()));
-    gh.factory<_i28.AuthBloc>(() => _i28.AuthBloc(
+    gh.lazySingletonAsync<_i26.EdituserdataUsecase>(() async =>
+        _i26.EdituserdataUsecase(userRepo: await getAsync<_i24.UserRepo>()));
+    gh.lazySingletonAsync<_i27.GetuserdataUsecase>(() async =>
+        _i27.GetuserdataUsecase(userRepo: await getAsync<_i24.UserRepo>()));
+    gh.lazySingletonAsync<_i28.DeleteuserdataUsecase>(() async =>
+        _i28.DeleteuserdataUsecase(userRepo: await getAsync<_i24.UserRepo>()));
+    gh.factory<_i29.AuthBloc>(() => _i29.AuthBloc(
           gh<_i21.RegisterUsecase>(),
           gh<_i20.LoginUsecase>(),
           gh<_i18.ResetPasswordUsecase>(),
           gh<_i19.DeleteUsecase>(),
-          gh<_i22.Uploaduserdata>(),
+          gh<_i23.Uploaduserdata>(),
+        ));
+    gh.factoryAsync<_i30.UserBloc>(() async => _i30.UserBloc(
+          await getAsync<_i27.GetuserdataUsecase>(),
+          await getAsync<_i26.EdituserdataUsecase>(),
+          await getAsync<_i28.DeleteuserdataUsecase>(),
         ));
     return this;
   }
 }
 
-class _$HTTPModule extends _i29.HTTPModule {}
+class _$HTTPModule extends _i31.HTTPModule {}
 
-class _$SharedPrefsModule extends _i29.SharedPrefsModule {}
+class _$SharedPrefsModule extends _i31.SharedPrefsModule {}
 
-class _$UuidModule extends _i29.UuidModule {}
+class _$UuidModule extends _i31.UuidModule {}

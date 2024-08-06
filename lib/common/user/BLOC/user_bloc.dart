@@ -5,6 +5,7 @@ import 'package:doctory/core/utils/Strings.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:doctory/common/user/domain/entity/user.dart';
+import 'package:injectable/injectable.dart';
 import '../../user/domain/usecases/GetUserData.dart';
 import '../../user/domain/usecases/EditUserData.dart';
 import '../../user/domain/usecases/DeleteUserData_Usecase.dart';
@@ -12,6 +13,7 @@ import '../../user/domain/usecases/DeleteUserData_Usecase.dart';
 part 'user_event.dart';
 part 'user_state.dart';
 
+@Injectable()
 class UserBloc extends Bloc<UserEvent, UserState>
 {
   final GetuserdataUsecase getuserdata;
