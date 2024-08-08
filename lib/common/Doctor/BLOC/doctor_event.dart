@@ -18,8 +18,8 @@ class GetDoctorEvent extends DoctorEvent
 class GetAllDoctorsEvent extends DoctorEvent
 {
   const GetAllDoctorsEvent();
+
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -30,6 +30,16 @@ class GetDoctorByNameEvent extends DoctorEvent
   const GetDoctorByNameEvent({required this.name});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [name];
+}
+
+class GetDoctorsBySpecialEvent extends DoctorEvent
+{
+  final String special;
+
+  const GetDoctorsBySpecialEvent({required this.special});
+
+  @override
+  List<Object?> get props => [special];
+
 }

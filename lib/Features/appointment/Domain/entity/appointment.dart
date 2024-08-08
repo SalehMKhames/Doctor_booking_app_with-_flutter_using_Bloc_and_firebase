@@ -2,28 +2,30 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/v4.dart';
 
+enum Acceptance{wait, accepted, refused}
+
 class Appointment extends Equatable
 {
-  final UuidV4 id;
+  UuidV4 id = const UuidV4();
   final String doctorId;
   final String patientId;
   final TimeOfDay hour;
   final String day;
-  final bool isApproved;
+  final Acceptance isApproved;
 
-  const Appointment({
+  Appointment({
       required this.id,
       required this.doctorId,
       required this.patientId,
       required this.hour,
       required this.day,
-      this.isApproved = false
+      this.isApproved = Acceptance.wait
   });
 
   @override
   List<Object?> get props => [id, doctorId, patientId, hour, day, isApproved];
 
-  Appointment copyWith(UuidV4? id, String? doctorId, String? patientId, TimeOfDay? hour, String? day, bool? isApproved)
+  Appointment copyWith(UuidV4? id, String? doctorId, String? patientId, TimeOfDay? hour, String? day, Acceptance? isApproved)
   {
     return Appointment
     (

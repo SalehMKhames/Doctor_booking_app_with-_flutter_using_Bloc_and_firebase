@@ -11,4 +11,6 @@ abstract class DoctorRepo
   Future<Either<Failure, List<Doctor>>> getAllDoctor();
 
   Future<Either<Failure, Doctor>> getDoctorByName(String name);
+
+  Future<Either<Failure, List<Doctor>>> getDoctorsBySpecial(String special);
 }

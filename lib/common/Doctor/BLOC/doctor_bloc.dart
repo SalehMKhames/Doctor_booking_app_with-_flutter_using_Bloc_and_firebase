@@ -28,6 +28,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState>
     on<GetDoctorEvent>(_getDoctor);
     on<GetAllDoctorsEvent>(_getAllDoctors);
     on<GetDoctorByNameEvent>(_getDoctorByName);
+    on<GetDoctorsBySpecialEvent>(_getDoctorsBySpecial);
   }
 
 
@@ -62,6 +63,19 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState>
     res.fold(
        (fail) => emit(state.copyWith(getDoctorState: DoctorStatus.failed, message: "Sorry, we can not get doctor's data right now, please check your connection.")),
        (doctor) => emit(state.copyWith(getDoctorState: DoctorStatus.success, doctor: doctor))
+    );
+  }
+
+
+
+  FutureOr<void> _getDoctorsBySpecial(GetDoctorsBySpecialEvent event, Emitter<DoctorState> emit) async
+  {
+    emit(state.copyWith(getDoctorsBySpecialState: DoctorStatus.loading));
+    final res = await getDoctorsByName.execute(event.special);
+
+    res.fold(
+       (fail) => emit(state.copyWith(getDoctorsBySpecialState: DoctorStatus.failed, message: "Sorry, we can not get doctors' data right now, please check your connection.")),
+       (doctor) => emit(state.copyWith(getDoctorsBySpecialState: DoctorStatus.success, doctor: doctor))
     );
   }
 }

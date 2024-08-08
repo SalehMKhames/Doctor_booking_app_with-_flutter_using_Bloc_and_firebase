@@ -12,7 +12,7 @@ class DoctorRemotedatasource
 
   DoctorRemotedatasource({required this.client});
 
-  Future<DoctorModel> getUserData(String id) async
+  Future<DoctorModel> getDoctorData(String id) async
   {
     try
     {
@@ -76,6 +76,34 @@ class DoctorRemotedatasource
       final userData = DoctorModel.fromJson(fireData as Map<String, dynamic>);
 
       return userData;
+    }
+    on ServerException{
+      throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");
+    }
+    on BadRequestException{
+      throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
+    }
+    on UnauthorizedException{
+      throw const UnauthorizedFailure(Message: "Authentication failed. Please provide valid credentials.");
+    }
+    on OfflineException{
+      throw const OfflineFailure(Message: "You are without Internet connection. Please, try to connect.");
+    }
+    catch (err){
+      throw Exception(err);
+    }
+  }
+
+  Future<List<DoctorModel>> getDoctorBySpecial(String special) async
+  {
+    try
+    {
+      final collectionRef = FirebaseFirestore.instance.collection('Doctors');
+      final docRef = collectionRef.where('category' , isEqualTo: special);
+      final fireData = await docRef.get() as List<DoctorModel>;
+      final doctorsData =fireData.map((item) => DoctorModel.fromJson(item as Map<String, dynamic>)).toList();
+
+      return doctorsData;
     }
     on ServerException{
       throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");

@@ -26,9 +26,8 @@ class AuthRemoteSource {
     );
 
     if (res.statusCode == 200) //on success
-        {
-      final userDetails = CredentialsModel.fromJson(
-          await json.decode(res.body));
+    {
+      final userDetails = CredentialsModel.fromJson(await json.decode(res.body));
       id = userDetails.localId;
       return userDetails;
     }

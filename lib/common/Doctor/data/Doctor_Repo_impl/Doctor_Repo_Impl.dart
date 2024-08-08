@@ -19,7 +19,7 @@ class DoctorRepoImpl extends DoctorRepo
   Future<Either<Failure, Doctor>> getDoctorData(String id) async
   {
     try{
-      final res = await remotedatasource.getUserData(id);
+      final res = await remotedatasource.getDoctorData(id);
       await localdatasource.cachingDoctor("Doctor_info", res);
 
       return right(res);
@@ -58,6 +58,24 @@ class DoctorRepoImpl extends DoctorRepo
   {
     try{
       final res = await remotedatasource.getDoctorByName(name);
+      return right(res);
+    }
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
+    }
+    on BadRequestException catch(e){
+      return Left(BadRequestFailure(Message: e.message));
+    }
+    on UnauthorizedException catch(e){
+      return Left(BadRequestFailure(Message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Doctor>>> getDoctorsBySpecial(String special) async
+  {
+    try{
+      final res = await remotedatasource.getDoctorBySpecial(special);
       return right(res);
     }
     on ServerException catch(e){

@@ -9,13 +9,15 @@ class DoctorState extends Equatable
   final DoctorStatus getDoctorState;
   final DoctorStatus getAllDoctorsState;
   final DoctorStatus getDoctorByNameState;
+  final DoctorStatus getDoctorsBySpecialState;
 
   const DoctorState({
     this.doctor,
     this.message,
     this.getDoctorState = DoctorStatus.init,
     this.getAllDoctorsState = DoctorStatus.init,
-    this.getDoctorByNameState = DoctorStatus.init
+    this.getDoctorByNameState = DoctorStatus.init,
+    this.getDoctorsBySpecialState = DoctorStatus.init
   });
 
   DoctorState copyWith({
@@ -24,7 +26,8 @@ class DoctorState extends Equatable
     String? message,
     DoctorStatus? getDoctorState,
     DoctorStatus? getAllDoctorsState,
-    DoctorStatus? getDoctorByNameState
+    DoctorStatus? getDoctorByNameState,
+    DoctorStatus? getDoctorsBySpecialState,
   })
   {
     return DoctorState(
@@ -32,10 +35,11 @@ class DoctorState extends Equatable
       message: message ?? this.message,
       getDoctorState: getDoctorState ?? this.getDoctorState,
       getAllDoctorsState: getAllDoctorsState ?? this.getAllDoctorsState,
-      getDoctorByNameState: getDoctorByNameState ?? this.getDoctorByNameState
+      getDoctorByNameState: getDoctorByNameState ?? this.getDoctorByNameState,
+      getDoctorsBySpecialState: getDoctorsBySpecialState ?? this.getDoctorsBySpecialState
     );
   }
 
   @override
-  List<Object?> get props => [doctor, message, getDoctorState, getAllDoctorsState, getDoctorByNameState];
+  List<Object?> get props => [doctor, message, getDoctorState, getAllDoctorsState, getDoctorByNameState, getDoctorsBySpecialState];
 }

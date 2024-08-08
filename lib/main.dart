@@ -1,5 +1,8 @@
 import 'package:doctory/Features/authentication/presentation/auth_Bloc/auth_bloc.dart';
 import 'package:doctory/Features/authentication/presentation/screens/Register_screen.dart';
+import 'package:doctory/Features/home/pages/Home.dart';
+import 'package:doctory/common/Doctor/BLOC/doctor_bloc.dart';
+import 'package:doctory/common/user/BLOC/user_bloc.dart';
 //import 'package:doctory/common/user/presentation/User_Bloc/user_bloc.dart';
 import 'package:doctory/core/Depend_injection/dependency_injection.dart';
 import 'package:doctory/core/Themes/App_Theme.dart';
@@ -29,7 +32,8 @@ class MyApp extends StatelessWidget {
       providers:
       [
         BlocProvider<AuthBloc>(create: (_) => getIt<AuthBloc>()),
-        //BlocProvider<UserBloc>(create: (_) => getIt<UserBloc>(),)
+        BlocProvider<UserBloc>(create: (_) => getIt<UserBloc>(),),
+        BlocProvider<DoctorBloc>(create: (_) => getIt<DoctorBloc>(),),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
