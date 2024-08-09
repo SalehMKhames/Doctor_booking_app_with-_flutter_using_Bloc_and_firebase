@@ -11,6 +11,6 @@ class Uploaduserdata
 
   Uploaduserdata({required this.userCredRepo});
 
-  Future<Either<Failure, Unit>> execute(String name, String email, String birth, String phone, String status) async
-      => await userCredRepo.userUploadData(name, email, birth, phone, status);
+  Future<Either<Failure, Unit>> execute(String dbName, String name, String email, String birth, String phone, String status) async
+      => await userCredRepo.userUploadData(dbName, name, email, birth, phone, status);
 }

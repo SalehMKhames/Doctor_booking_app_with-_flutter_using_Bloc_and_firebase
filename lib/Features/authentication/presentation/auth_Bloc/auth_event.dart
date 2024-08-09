@@ -48,6 +48,7 @@ class DeleteEvent extends AuthEvent
 
 class UserUploadEvent extends AuthEvent
 {
+  final String dbName;
   final String name;
   final String email;
   final String birth;
@@ -57,6 +58,7 @@ class UserUploadEvent extends AuthEvent
 
   const UserUploadEvent(
       {
+        required this.dbName,
         required this.name,
         required this.email,
         required this.birth,
@@ -66,5 +68,30 @@ class UserUploadEvent extends AuthEvent
   );
 
   @override
-  List<Object?> get props => [name, email, birth, phone, medicalStatus];
+  List<Object?> get props => [dbName, name, email, birth, phone, medicalStatus];
+}
+
+class DoctorUploadEvent extends AuthEvent
+{
+  final String dbName;
+  final String name;
+  final String bio;
+  final XFile profileImage;
+  final String category;
+  final String address;
+
+
+  const DoctorUploadEvent(
+      {
+        required this.dbName,
+        required this.name,
+        required this.bio,
+        required this.profileImage,
+        required this.category,
+        required this.address
+      }
+      );
+
+  @override
+  List<Object?> get props => [dbName, name, bio, profileImage, category, address];
 }

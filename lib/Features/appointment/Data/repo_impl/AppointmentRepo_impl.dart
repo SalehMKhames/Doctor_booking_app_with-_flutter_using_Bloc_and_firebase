@@ -1,13 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:doctory/Features/appointment/Data/data_sources/Appointment_LocalDataSource.dart';
 import 'package:doctory/Features/appointment/Data/data_sources/Appointment_RemoteDataSource.dart';
+import 'package:doctory/Features/appointment/Data/model/Appointment_model.dart';
 import 'package:doctory/Features/appointment/Domain/entity/appointment.dart';
 import 'package:doctory/Features/appointment/Domain/repository/appointment_repo.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
-import 'package:flutter/src/material/time.dart';
+import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:uuid/v4.dart';
 
+@LazySingleton(as: AppointmentRepo)
 class AppointmentRepoImpl extends AppointmentRepo
 {
   final Appointment_RemoteDataSource remoteDataSource;
@@ -19,7 +22,7 @@ class AppointmentRepoImpl extends AppointmentRepo
   Future<Either<Failure, Unit>> createAppointment(UuidV4 id, String doctorId, String patientId, TimeOfDay hour, String day) async
   {
     try{
-      final res = await remoteDataSource.createAppointment(id, doctorId, patientId, hour, day);
+      await remoteDataSource.createAppointment(id, doctorId, patientId, hour, day);
       return const Right(unit);
     }
     on ServerException catch(e){
@@ -75,6 +78,60 @@ class AppointmentRepoImpl extends AppointmentRepo
   {
     try {
       final result = await remoteDataSource.acceptingAppointment(id, newAccept);
+      return Right(result);
+    }
+    on ServerException catch (e) {
+      return Left(ServerFailure(Message: e.message));
+    }
+    on UnauthorizedException catch (e) {
+      return left(UnauthorizedFailure(Message: e.message));
+    }
+    on BadRequestException catch (e) {
+      return left(BadRequestFailure(Message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<AppointmentModel>>> getAllAppointments(UuidV4 id, String userId) async
+  {
+    try {
+      final result = await remoteDataSource.getAllAppointments(id, userId);
+      return Right(result);
+    }
+    on ServerException catch (e) {
+      return Left(ServerFailure(Message: e.message));
+    }
+    on UnauthorizedException catch (e) {
+      return left(UnauthorizedFailure(Message: e.message));
+    }
+    on BadRequestException catch (e) {
+      return left(BadRequestFailure(Message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Appointment>> getUserAppointment(UuidV4 id) async
+  {
+    try {
+      final result = await remoteDataSource.getAppointment(id);
+      return Right(result);
+    }
+    on ServerException catch (e) {
+      return Left(ServerFailure(Message: e.message));
+    }
+    on UnauthorizedException catch (e) {
+      return left(UnauthorizedFailure(Message: e.message));
+    }
+    on BadRequestException catch (e) {
+      return left(BadRequestFailure(Message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Appointment>>> filterAppointmentsByAcceptance(String value) async
+  {
+    try {
+      final result = await remoteDataSource.filterAppointmentsByAcceptance(value);
       return Right(result);
     }
     on ServerException catch (e) {

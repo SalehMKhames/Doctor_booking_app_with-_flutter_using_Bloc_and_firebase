@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:typed_data';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -8,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/utils/Strings.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable()
@@ -131,7 +134,7 @@ class AuthRemoteSource {
     }
   }
 
-  Future<Unit> uploadData(String name, String email, String birthDate, String phone, String medicalStatus) async
+  Future<Unit> uploadData(String dbName, String name, String email, String birthDate, String phone, String medicalStatus) async
   {
     final Map<String, dynamic> userData = {
       'name': name,
@@ -143,9 +146,46 @@ class AuthRemoteSource {
 
     try
     {
-      final collectionRef = FirebaseFirestore.instance.collection('Users');
+      final collectionRef = FirebaseFirestore.instance.collection(dbName);
       final docRef = collectionRef.doc(id);
       docRef.set(userData);
+      return unit;
+    }
+    on ServerException{
+      throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");
+    }
+    on BadRequestException{
+      throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
+    }
+    on UnauthorizedException{
+      throw const UnauthorizedFailure(Message: "Authentication failed. Please provide valid credentials.");
+    }
+    on OfflineException{
+      throw const OfflineFailure(Message: "You are without Internet connection. Please, try to connect.");
+    }
+    catch (err){
+      throw Exception(err);
+    }
+  }
+
+  Future<Unit> uploadDoctorData(String Database, String name, String bio, XFile profileImage, String special, String address) async
+  {
+    Uint8List imageBytes = await profileImage.readAsBytes();
+    Blob blob = Blob(imageBytes);
+
+    Map<String, dynamic> docData ={
+      "Name" : name,
+      "Profile_Image" : blob,
+      "Bio" : bio,
+      "Specialization" : special,
+      "Address" : address
+    };
+
+    try
+    {
+      final collectionRef = FirebaseFirestore.instance.collection(Database);
+      final docRef = collectionRef.doc(id);
+      docRef.set(docData);
       return unit;
     }
     on ServerException{

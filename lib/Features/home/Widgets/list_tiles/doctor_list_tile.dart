@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:doctory/common/Doctor/domain/entity/doctor.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,7 @@ class DoctorListTile extends StatelessWidget {
       leading: CircleAvatar(
         radius: 30.0,
         backgroundColor: colorScheme.background,
-        backgroundImage: AssetImage(doctor.profileImageUrl),
+        backgroundImage: FileImage(doctor.profileImage as File),
       ) ,
       title: Text(
         doctor.name,
@@ -33,7 +35,7 @@ class DoctorListTile extends StatelessWidget {
         children: [
           const SizedBox(height: 4.0),
           Text(
-            doctor.category.name,
+            doctor.category,
             style: textTheme.bodyMedium!.copyWith(
               color: colorScheme.secondary,
             ),

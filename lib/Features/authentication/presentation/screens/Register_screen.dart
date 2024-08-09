@@ -23,16 +23,6 @@ class _RegisterScreenState extends State<RegisterScreen>
   @override
   Widget build(BuildContext context)
   {
-    String _receivedEmail ="";
-
-    // This is a CallBack method that takes the _receivedEmail value from the EmailSheet widget.
-    // Then, it passes the value to ProvidingUserInfo screen.
-    void _handleEmailSubmitted(String email)
-    {
-      setState(() {
-        _receivedEmail = email;
-      });
-    }
 
     return BlocListener<AuthBloc, AuthState>
     (
@@ -59,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen>
               state.message!, Colors.teal, Colors.white70)); //snackBar
 
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return ProvidingInfoScreen(email: _receivedEmail);
+            return ProvidingInfoScreen(email:state.credentials!.email);
           }));
         }
         //The Log in
@@ -76,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen>
               state.message!, Colors.teal, Colors.white70)); //snackBar
 
           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-            return const HomeScreen();
+            return HomeScreen(id: state.credentials!.localId);
           }));
         }
       },
@@ -134,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                             context: context,
                             isScrollControlled: true,
                             builder: (ctx) {
-                              return EmailSheet(onEmailSubmit: _handleEmailSubmitted,);
+                              return const EmailSheet();
                             });
                       },
                     ),

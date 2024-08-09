@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 import '../../Doctor/domain/Usecases/getDoctor_usecase.dart';
 import '../../Doctor/domain/Usecases/getAllDoctors_usecase.dart';
 import '../../Doctor/domain/Usecases/getDoctorByName_usecase.dart';
+import '../../Doctor/domain/Usecases/getDoctorsBySpecialization_usecase.dart';
 
 part 'doctor_event.dart';
 part 'doctor_state.dart';
@@ -18,11 +19,13 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState>
   final Getdoctorusecase getDoctor;
   final GetalldoctorsUsecase getAllDoctors;
   final GetdoctorbynameUsecase getDoctorsByName;
+  final Getdoctorsbyspecialization getDoctorBySpecial;
 
   DoctorBloc(
     this.getDoctor,
     this.getAllDoctors,
-    this.getDoctorsByName
+    this.getDoctorsByName,
+    this.getDoctorBySpecial
   ) : super(const DoctorState())
   {
     on<GetDoctorEvent>(_getDoctor);
@@ -71,11 +74,11 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState>
   FutureOr<void> _getDoctorsBySpecial(GetDoctorsBySpecialEvent event, Emitter<DoctorState> emit) async
   {
     emit(state.copyWith(getDoctorsBySpecialState: DoctorStatus.loading));
-    final res = await getDoctorsByName.execute(event.special);
+    final res = await getDoctorBySpecial.execute(event.special);
 
     res.fold(
        (fail) => emit(state.copyWith(getDoctorsBySpecialState: DoctorStatus.failed, message: "Sorry, we can not get doctors' data right now, please check your connection.")),
-       (doctor) => emit(state.copyWith(getDoctorsBySpecialState: DoctorStatus.success, doctor: doctor))
+       (doctor) => emit(state.copyWith(getDoctorsBySpecialState: DoctorStatus.success, allDoctors: doctor))
     );
   }
 }

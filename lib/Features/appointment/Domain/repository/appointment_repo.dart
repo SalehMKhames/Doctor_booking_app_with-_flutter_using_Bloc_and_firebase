@@ -6,6 +6,10 @@ import 'package:uuid/v4.dart';
 
 abstract class AppointmentRepo
 {
+  Future<Either<Failure, List<Appointment>>> getAllAppointments(UuidV4 id, String userId);
+
+  Future<Either<Failure, Appointment>> getUserAppointment(UuidV4 id);
+
   Future<Either<Failure, Unit>> createAppointment(UuidV4 id, String doctorId, String userId, TimeOfDay hour, String day);
 
   Future<Either<Failure, Unit>> editAppointment(UuidV4 id, String field, String value);
@@ -13,4 +17,6 @@ abstract class AppointmentRepo
   Future<Either<Failure, Unit>> deleteAppointment(UuidV4 id);
 
   Future<Either<Failure, Unit>> acceptingAppointment(UuidV4 id, Acceptance newAccept);
+
+  Future<Either<Failure, List<Appointment>>> filterAppointmentsByAcceptance(String value);
 }

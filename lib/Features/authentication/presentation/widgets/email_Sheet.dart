@@ -7,9 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class EmailSheet extends StatefulWidget
 {
-  final Function(String) onEmailSubmit;
 
-  const EmailSheet({super.key, required this.onEmailSubmit});
+  const EmailSheet({super.key});
 
   @override
   State<EmailSheet> createState() => _EmailDialogState();

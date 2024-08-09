@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-enum DoctorCategory {
+enum DoctorCategory
+{
   anesthesiology(
     name: 'Anesthesiology',
     icon: Icons.account_circle_outlined,

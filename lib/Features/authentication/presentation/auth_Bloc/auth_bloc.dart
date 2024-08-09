@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
+import 'package:doctory/core/utils/src/doctor_category.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
 import 'package:doctory/core/utils/Strings.dart';
@@ -13,6 +16,7 @@ import '../../domain/usecases/userLogin_usecase.dart';
 import '../../domain/usecases/resetPassword_usecase.dart';
 import '../../domain/usecases/userDelete_usecase.dart';
 import '../../domain/usecases/UploadUserdata.dart';
+import '../../domain/usecases/DoctorUploadData_usecase.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -25,13 +29,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   final ResetPasswordUsecase resetPasswordUsecase;
   final DeleteUsecase deleteUsecase;
   final Uploaduserdata uploadData;
+  final DoctoruploaddataUsecase doctorUsecase;
 
   AuthBloc(
       this.registerUsecase,
       this.loginUsecase,
       this.resetPasswordUsecase,
       this.deleteUsecase,
-      this.uploadData
+      this.uploadData,
+      this.doctorUsecase
       ) : super(const AuthState())
   {
     on<LogInEvent>(_login);
@@ -39,6 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     on<DeleteEvent>(_delete);
     on<ResetPasswordEvent>(_resetpassword);
     on<UserUploadEvent>(_uploadData);
+    on<DoctorUploadEvent>(_uploadDoctorData);
   }
 
 
@@ -93,17 +100,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   {
     emit(state.copyWith(userUploadInfo: UserAuthStatus.loading));
     final result = await uploadData.execute(
-        event.name,
-        event.email,
-        event.birth,
-        event.phone,
-        event.medicalStatus
+      event.dbName,
+      event.name,
+      event.email,
+      event.birth,
+      event.phone,
+      event.medicalStatus
     );
 
     result.fold
     (
       (fail) => emit(state.copyWith(userUploadInfo: UserAuthStatus.failed, message: failure)),
       (succ) => emit(state.copyWith(userUploadInfo: UserAuthStatus.success, message: uploadSuccess))
+    );
+  }
+
+  FutureOr<void> _uploadDoctorData(DoctorUploadEvent event, Emitter<AuthState> emit) async
+  {
+    emit(state.copyWith(doctorUploadInfo: UserAuthStatus.loading));
+    final result = await doctorUsecase.execute(event.dbName, event.name, event.bio, event.profileImage, event.category, event.address);
+
+    result.fold
+    (
+      (fail) => emit(state.copyWith(doctorUploadInfo: UserAuthStatus.failed, message: failure)),
+      (succ) => emit(state.copyWith(doctorUploadInfo: UserAuthStatus.success, message: uploadSuccess))
     );
   }
 }

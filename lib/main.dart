@@ -1,3 +1,4 @@
+import 'package:doctory/Features/appointment/Presentation/bloc/appointment_bloc.dart';
 import 'package:doctory/Features/authentication/presentation/auth_Bloc/auth_bloc.dart';
 import 'package:doctory/Features/authentication/presentation/screens/Register_screen.dart';
 import 'package:doctory/Features/home/pages/Home.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthBloc>(create: (_) => getIt<AuthBloc>()),
         BlocProvider<UserBloc>(create: (_) => getIt<UserBloc>(),),
         BlocProvider<DoctorBloc>(create: (_) => getIt<DoctorBloc>(),),
+        BlocProvider<AppointmentBloc>(create: (_) => getIt<AppointmentBloc>(),),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

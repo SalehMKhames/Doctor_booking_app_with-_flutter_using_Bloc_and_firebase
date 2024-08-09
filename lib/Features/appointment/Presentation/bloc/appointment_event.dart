@@ -59,3 +59,34 @@ class AcceptingEvent extends AppointmentEvent
   List<Object?> get props => [id, isAccepted];
 
 }
+
+class GetAllAppointmentsEvent extends AppointmentEvent {
+  final UuidV4 id;
+  final String userId;
+
+  const GetAllAppointmentsEvent({required this.id, required this.userId});
+
+  @override
+  List<Object?> get props => [id, userId];
+
+}
+
+class GetUserAppointmentsEvent extends AppointmentEvent {
+  final UuidV4 id;
+
+  const GetUserAppointmentsEvent({required this.id});
+
+  @override
+  List<Object?> get props => [id];
+
+}
+
+class FilterEvent extends AppointmentEvent {
+  final Acceptance value;
+
+  const FilterEvent({required this.value});
+
+  @override
+  List<Object?> get props => [value];
+
+}
