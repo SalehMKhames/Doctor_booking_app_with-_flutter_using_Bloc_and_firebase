@@ -19,10 +19,10 @@ class AppointmentRepoImpl extends AppointmentRepo
   AppointmentRepoImpl({required this.remoteDataSource, required this.localDataSource});
 
   @override
-  Future<Either<Failure, Unit>> createAppointment(UuidV4 id, String doctorId, String patientId, TimeOfDay hour, String day) async
+  Future<Either<Failure, Unit>> createAppointment( UuidV4 doctorId, UuidV4 patientId, TimeOfDay hour, DateTime day) async
   {
     try{
-      await remoteDataSource.createAppointment(id, doctorId, patientId, hour, day);
+      await remoteDataSource.createAppointment( doctorId, patientId, hour, day);
       return const Right(unit);
     }
     on ServerException catch(e){

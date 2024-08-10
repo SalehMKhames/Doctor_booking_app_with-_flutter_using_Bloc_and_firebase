@@ -11,6 +11,7 @@ class AuthState extends Equatable
   final UserAuthStatus userDelete;
   final UserAuthStatus userUploadInfo;
   final UserAuthStatus doctorUploadInfo;
+  final UserAuthStatus userSignOut;
   final String? message;
 
   const AuthState(
@@ -22,6 +23,7 @@ class AuthState extends Equatable
     this.userDelete= UserAuthStatus.init,
     this.userUploadInfo = UserAuthStatus.init,
     this.doctorUploadInfo = UserAuthStatus.init,
+    this.userSignOut = UserAuthStatus.init,
     this.message
   });
 
@@ -33,6 +35,7 @@ class AuthState extends Equatable
     UserAuthStatus? userDelete,
     UserAuthStatus? userUploadInfo,
     UserAuthStatus? doctorUploadInfo,
+    UserAuthStatus? userSignOut,
     String? message
   })
   {
@@ -45,12 +48,13 @@ class AuthState extends Equatable
       userDelete: userDelete ?? this.userDelete,
       userUploadInfo: userUploadInfo ?? this.userUploadInfo,
       doctorUploadInfo: doctorUploadInfo ?? this.doctorUploadInfo,
+      userSignOut: userSignOut ?? this.userSignOut,
       message: message ?? this.message
     );
   }
 
   @override
   List<Object?> get props =>
-      [credentials, userLogIn, userRegister, userDelete, userResetPassword, userUploadInfo, doctorUploadInfo];
+      [credentials, userLogIn, userRegister, userDelete, userResetPassword, userUploadInfo, doctorUploadInfo, userSignOut];
 
 }

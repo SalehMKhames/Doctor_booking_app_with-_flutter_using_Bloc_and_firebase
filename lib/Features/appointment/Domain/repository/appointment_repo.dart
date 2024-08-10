@@ -10,7 +10,7 @@ abstract class AppointmentRepo
 
   Future<Either<Failure, Appointment>> getUserAppointment(UuidV4 id);
 
-  Future<Either<Failure, Unit>> createAppointment(UuidV4 id, String doctorId, String userId, TimeOfDay hour, String day);
+  Future<Either<Failure, Unit>> createAppointment(UuidV4 doctorId, UuidV4 userId, TimeOfDay hour, DateTime day);
 
   Future<Either<Failure, Unit>> editAppointment(UuidV4 id, String field, String value);
 

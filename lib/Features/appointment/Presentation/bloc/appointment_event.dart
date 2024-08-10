@@ -5,16 +5,14 @@ sealed class AppointmentEvent extends Equatable {
 }
 
 class CreateEvent extends AppointmentEvent {
-  final UuidV4 id;
-  final String doctorId;
-  final String userId;
+  final UuidV4 doctorId;
+  final UuidV4 userId;
   final TimeOfDay hour;
-  final String day;
+  final DateTime day;
   Acceptance initAcceptance = Acceptance.wait;
 
   CreateEvent(
     {
-      required this.id,
       required this.doctorId,
       required this.userId,
       required this.hour,
@@ -23,7 +21,7 @@ class CreateEvent extends AppointmentEvent {
   });
 
   @override
-  List<Object?> get props => [id, doctorId, userId, hour, day, initAcceptance];
+  List<Object?> get props => [doctorId, userId, hour, day, initAcceptance];
 }
 
 class EditAppointEvent extends AppointmentEvent

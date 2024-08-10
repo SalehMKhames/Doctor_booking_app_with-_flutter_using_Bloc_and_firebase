@@ -12,6 +12,6 @@ class CreateappointmentUsecase
 
   CreateappointmentUsecase({required this.appointmentRepo});
 
-  Future<Either<Failure, Unit>> execute(UuidV4 id, String doctorId, String userId, TimeOfDay hour, String day) async
-      => await appointmentRepo.createAppointment(id, doctorId, userId, hour, day);
+  Future<Either<Failure, Unit>> execute(UuidV4 doctorId, UuidV4 userId, TimeOfDay hour, DateTime day) async
+      => await appointmentRepo.createAppointment(doctorId, userId, hour, day);
 }

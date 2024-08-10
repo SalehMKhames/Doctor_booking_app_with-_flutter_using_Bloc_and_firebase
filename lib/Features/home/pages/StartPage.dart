@@ -19,7 +19,10 @@ class StartPage extends StatefulWidget {
   State<StartPage> createState() => _StartPageState();
 }
 
-class _StartPageState extends State<StartPage> {
+class _StartPageState extends State<StartPage>
+{
+  final TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -27,10 +30,7 @@ class _StartPageState extends State<StartPage> {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) =>
-              getIt<UserBloc>()..add(GetUserEvent(id: widget.id)),
-        ),
+        BlocProvider(create: (context) => getIt<UserBloc>()..add(GetUserEvent(id: widget.id)),),
         BlocProvider(create: (context) => getIt<DoctorBloc>()),
         BlocProvider(create: (context) => getIt<AppointmentBloc>())
       ],
@@ -41,7 +41,8 @@ class _StartPageState extends State<StartPage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children:
+            [
               Text(
                 S.of(context).title,
                 style: textTheme.bodyMedium!.copyWith(
@@ -49,7 +50,7 @@ class _StartPageState extends State<StartPage> {
               ),
               const SizedBox(height: 4.0),
               Text(
-                'Massimo D',
+                BlocProvider.of<UserBloc>(context).state.data!.Name,
                 style: textTheme.bodyLarge!.copyWith(
                   // fontWeight: FontWeight.bold,
                   fontFamily: 'jaro',
@@ -58,27 +59,25 @@ class _StartPageState extends State<StartPage> {
               const SizedBox(height: 4.0),
             ],
           ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.notifications_outlined),
-            ),
-            const SizedBox(
-              width: 8.0,
-            ),
-          ],
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(64.0),
-            child: Padding(
+            child: Padding
+            (
               padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                decoration: InputDecoration(
+              child: TextFormField
+              (
+                controller: searchController,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration
+                (
                   hintText: S.of(context).Search_for_doctors,
                   prefixIcon: const Icon(Icons.search),
-                  suffixIcon: Container(
+                  suffixIcon: Container
+                  (
                     margin: const EdgeInsets.all(4.0),
                     padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
+                    decoration: BoxDecoration
+                    (
                       color: colorScheme.onSurfaceVariant,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
@@ -86,6 +85,7 @@ class _StartPageState extends State<StartPage> {
                       Icons.filter_alt_outlined,
                     ),
                   ),
+
                 ),
               ),
             ),
@@ -159,7 +159,8 @@ class _MySchedule extends StatelessWidget {
         SectionTitle(
             title: S.of(context).My_Schedule,
             action: S.of(context).See_all,
-            onPressed: () {}),
+            onPressed: () {}
+        ),
         const AppointemntPreviewCard(),
       ],
     );

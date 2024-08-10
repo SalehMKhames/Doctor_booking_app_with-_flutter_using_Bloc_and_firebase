@@ -38,11 +38,14 @@ class _AppointmentPageState extends State<AppointmentPage> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     List<dynamic> filteredSchedules = schedules.where((var schedule) {
       return schedule['status'] == status;
     }).toList();
-    return SafeArea(
+
+    return SafeArea
+    (
       child: Padding(
         padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
         child: Column(
@@ -51,7 +54,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
             Text(
               S.of(context).Appointment_Schedule,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

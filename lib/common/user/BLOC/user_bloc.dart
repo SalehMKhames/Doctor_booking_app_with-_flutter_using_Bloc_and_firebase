@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:doctory/common/user/domain/entity/user.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/v4.dart';
 import '../../user/domain/usecases/GetUserData.dart';
 import '../../user/domain/usecases/EditUserData.dart';
 import '../../user/domain/usecases/DeleteUserData_Usecase.dart';

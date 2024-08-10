@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/v4.dart';
 
 class ProvidingInfoScreen extends StatefulWidget {
   final String email;
@@ -58,7 +59,7 @@ class _ProvidingInfoScreenState extends State<ProvidingInfoScreen> {
 
             Navigator.of(context)
                 .pushReplacement(MaterialPageRoute(builder: (_) {
-              return HomeScreen(id: state.credentials!.email);
+              return HomeScreen(id: state.credentials!.localId);
             }));
           }
         },

@@ -12,6 +12,8 @@ import 'package:uuid/v4.dart';
 @lazySingleton
 class Appointment_RemoteDataSource
 {
+  final UuidV4 id = const UuidV4();
+
   http.Client client;
 
   Appointment_RemoteDataSource({required this.client});
@@ -71,7 +73,7 @@ class Appointment_RemoteDataSource
     }
   }
 
-  Future<Unit> createAppointment(UuidV4 id, String doctorId, String patientId, TimeOfDay hour, String day) async
+  Future<Unit> createAppointment(UuidV4 doctorId, UuidV4 patientId, TimeOfDay hour, DateTime day) async
   {
     final Map<String, dynamic> appointData = {
       'id' : id,

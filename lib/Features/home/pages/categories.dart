@@ -1,3 +1,4 @@
+import 'package:doctory/Features/home/Widgets/SpecializeScreen.dart';
 import 'package:doctory/Features/home/Widgets/avatars/circle_avatar_with_text_label.dart';
 import 'package:doctory/core/utils/src/doctor_category.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +11,19 @@ class Categories extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
       body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, crossAxisSpacing: 10, mainAxisSpacing: 20),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 10, mainAxisSpacing: 20),
         itemCount: DoctorCategory.values.length,
-        itemBuilder: (context, i) {
+        itemBuilder: (context, i)
+        {
           final Category = DoctorCategory.values[i];
-          return CircleAvatarWithTextLabel(
-            icon: Category.icon,
-            label: Category.name,
+          return GestureDetector(
+            child: CircleAvatarWithTextLabel(
+              icon: Category.icon,
+              label: Category.name,
+            ),
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SpecializeScreen()));
+            },
           );
         },
       ),

@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _pages = [
       StartPage(id: widget.id),
       const AppointmentPage(),
-      const ProfilePage()
+      ProfilePage(id: widget.id,)
     ];
   }
 
@@ -65,15 +65,15 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: const Icon(Icons.home),
           label: S.of(context).Home,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_month_outlined),
+          icon: const Icon(Icons.calendar_month_outlined),
           label: S.of(context).Appointment,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
+          icon: const Icon(Icons.person_outline),
           label: S.of(context).Profile,
         ),
       ],

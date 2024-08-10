@@ -1,14 +1,13 @@
-import 'dart:ui';
-
 import 'package:dartz/dartz.dart';
 import 'package:doctory/Features/authentication/data/Data%20sources/auth_RemoteDataSource.dart';
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
 import 'package:doctory/Features/authentication/domain/repositiories/user_credentials_repo.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
-import 'package:doctory/core/utils/src/doctor_category.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/v4.dart';
 
 @LazySingleton(as: UserCredentialsRepo)
 class UserCredentialsImpl implements UserCredentialsRepo
@@ -57,10 +56,10 @@ class UserCredentialsImpl implements UserCredentialsRepo
   }
 
   @override
-  Future<Either<Failure, Unit>> userDelete(String id) async
+  Future<Either<Failure, Unit>> userDelete(UuidV4 id) async
   {
     try{
-      final result = await remoteSource.deleteAccount(id);
+      final result = await remoteSource.deleteAccount(id as String);
       return Right(result);
     }
     on ServerException catch(e){
@@ -75,7 +74,7 @@ class UserCredentialsImpl implements UserCredentialsRepo
   }
 
   @override
-  Future<Either<Failure, Unit>> resetPassword(String id, String newPassword) async
+  Future<Either<Failure, Unit>> resetPassword(UuidV4 id, String newPassword) async
   {
     try{
       final result = await remoteSource.resetPassword(id, newPassword);
@@ -124,6 +123,24 @@ class UserCredentialsImpl implements UserCredentialsRepo
     try{
       final result = await remoteSource.uploadDoctorData(database, name, bio, profileImage, special, address);
       return Right(result);
+    }
+    on ServerException catch(e){
+      return Left(ServerFailure(Message: e.message));
+    }
+    on UnauthorizedException catch(e){
+      return left(UnauthorizedFailure(Message: e.message));
+    }
+    on BadRequestException catch(e){
+      return left(BadRequestFailure(Message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> userSignOut() async
+  {
+    try{
+      final res = await remoteSource.signOut();
+      return Right(res);
     }
     on ServerException catch(e){
       return Left(ServerFailure(Message: e.message));

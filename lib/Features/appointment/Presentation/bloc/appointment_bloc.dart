@@ -56,8 +56,7 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
       accept: Acceptance.wait,
       createAppointmentStatus: AppointmentStatus.loading,
     ));
-    final res = await createUsecase.execute(
-        event.id, event.doctorId, event.userId, event.hour, event.day);
+    final res = await createUsecase.execute(event.doctorId, event.userId, event.hour, event.day);
 
     res.fold(
             (fail) =>

@@ -27,7 +27,7 @@ class SignUpEvent extends AuthEvent
 
 class ResetPasswordEvent extends AuthEvent
 {
-  final String id;
+  final UuidV4 id;
   final String newPassword;
 
   const ResetPasswordEvent({required this.id, required this.newPassword});
@@ -38,7 +38,7 @@ class ResetPasswordEvent extends AuthEvent
 
 class DeleteEvent extends AuthEvent
 {
-  final String id;
+  final UuidV4 id;
 
   const DeleteEvent({required this.id});
 
@@ -94,4 +94,14 @@ class DoctorUploadEvent extends AuthEvent
 
   @override
   List<Object?> get props => [dbName, name, bio, profileImage, category, address];
+}
+
+class SignOutEvent extends AuthEvent
+{
+  const SignOutEvent();
+
+  @override
+  List<Object?> get props => [];
+
+
 }

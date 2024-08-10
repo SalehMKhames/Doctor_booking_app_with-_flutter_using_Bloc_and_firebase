@@ -6,16 +6,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:doctory/Features/authentication/data/Model/CredentialsModel.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/utils/Strings.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/v4.dart';
 
 @Injectable()
 class AuthRemoteSource {
-  late final String id;
+  late final UuidV4 id;
   final http.Client client;
 
   AuthRemoteSource({required this.client,});
@@ -31,7 +33,7 @@ class AuthRemoteSource {
     if (res.statusCode == 200) //on success
     {
       final userDetails = CredentialsModel.fromJson(await json.decode(res.body));
-      id = userDetails.localId;
+      id = userDetails.localId as UuidV4;
       return userDetails;
     }
     else if (res.statusCode == 400) //on bad request
@@ -81,7 +83,7 @@ class AuthRemoteSource {
     }
   }
 
-  Future<Unit> resetPassword(String userID, String newPassword) async
+  Future<Unit> resetPassword(UuidV4 userID, String newPassword) async
   {
     final response = await client.post(
         Uri.parse(ChangingPassowrURL),
@@ -147,7 +149,7 @@ class AuthRemoteSource {
     try
     {
       final collectionRef = FirebaseFirestore.instance.collection(dbName);
-      final docRef = collectionRef.doc(id);
+      final docRef = collectionRef.doc(id as String);
       docRef.set(userData);
       return unit;
     }
@@ -184,7 +186,7 @@ class AuthRemoteSource {
     try
     {
       final collectionRef = FirebaseFirestore.instance.collection(Database);
-      final docRef = collectionRef.doc(id);
+      final docRef = collectionRef.doc(id as String);
       docRef.set(docData);
       return unit;
     }
@@ -204,4 +206,27 @@ class AuthRemoteSource {
       throw Exception(err);
     }
   }
+
+  Future<Unit> signOut() async{
+    try{
+      await FirebaseAuth.instance.signOut();
+      return unit;
+    }
+    on ServerException{
+      throw const ServerFailure(Message: "An unexpected error occurred. Please try again later.");
+    }
+    on BadRequestException{
+      throw const BadRequestFailure(Message: "Invalid request format. Please check your input data.");
+    }
+    on UnauthorizedException{
+      throw const UnauthorizedFailure(Message: "Authentication failed. Please provide valid credentials.");
+    }
+    on OfflineException{
+      throw const OfflineFailure(Message: "You are without Internet connection. Please, try to connect.");
+    }
+    catch (err){
+      throw Exception(err);
+    }
+  }
+
 }

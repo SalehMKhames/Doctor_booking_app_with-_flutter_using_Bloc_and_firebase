@@ -4,10 +4,11 @@ import 'package:doctory/core/utils/src/doctor_package.dart';
 import 'package:doctory/core/utils/src/doctor_working_hours.dart';
 
 import 'package:equatable/equatable.dart';
+import 'package:uuid/v4.dart';
 
 
 class Doctor extends Equatable {
-  final String id;
+  final UuidV4 id;
   final String name;
   final String bio;
   final Image profileImage;

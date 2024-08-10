@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
-import 'package:doctory/core/utils/src/doctor_category.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
@@ -10,6 +8,7 @@ import 'package:injectable/injectable.dart';
 import 'package:doctory/core/utils/Strings.dart';
 
 import 'package:doctory/Features/authentication/domain/entities/userCredentials.dart';
+import 'package:uuid/v4.dart';
 
 import '../../domain/usecases/userRegister_usecase.dart';
 import '../../domain/usecases/userLogin_usecase.dart';
@@ -17,6 +16,7 @@ import '../../domain/usecases/resetPassword_usecase.dart';
 import '../../domain/usecases/userDelete_usecase.dart';
 import '../../domain/usecases/UploadUserdata.dart';
 import '../../domain/usecases/DoctorUploadData_usecase.dart';
+import '../../domain/usecases/UserSignOut_usecase.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -30,6 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   final DeleteUsecase deleteUsecase;
   final Uploaduserdata uploadData;
   final DoctoruploaddataUsecase doctorUsecase;
+  final UsersignoutUsecase signOut;
 
   AuthBloc(
       this.registerUsecase,
@@ -37,7 +38,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
       this.resetPasswordUsecase,
       this.deleteUsecase,
       this.uploadData,
-      this.doctorUsecase
+      this.doctorUsecase,
+      this.signOut
       ) : super(const AuthState())
   {
     on<LogInEvent>(_login);
@@ -46,6 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     on<ResetPasswordEvent>(_resetpassword);
     on<UserUploadEvent>(_uploadData);
     on<DoctorUploadEvent>(_uploadDoctorData);
+    on<SignOutEvent>(_signOut);
   }
 
 
@@ -124,6 +127,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     (
       (fail) => emit(state.copyWith(doctorUploadInfo: UserAuthStatus.failed, message: failure)),
       (succ) => emit(state.copyWith(doctorUploadInfo: UserAuthStatus.success, message: uploadSuccess))
+    );
+  }
+
+  FutureOr<void> _signOut(SignOutEvent event, Emitter<AuthState> emit) async
+  {
+    emit(state.copyWith(userSignOut: UserAuthStatus.loading));
+    final result = await signOut.execute();
+
+    result.fold
+      (
+            (fail) => emit(state.copyWith(userSignOut: UserAuthStatus.failed, message: failure)),
+            (succ) => emit(state.copyWith(userSignOut: UserAuthStatus.success, message: "You have been logged out successfully"))
     );
   }
 }

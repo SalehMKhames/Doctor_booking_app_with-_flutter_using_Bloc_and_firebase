@@ -27,15 +27,14 @@ class UserState extends Equatable
   })
   {
     return UserState(
-      data: data ?? this.data,
-      message: message ?? this.message,
-      getUserState: getUserState ?? this.getUserState,
-      editUserData: editUserData ?? this.editUserData,
-      deleteUserData: deleteUserData ?? this.deleteUserData
+        data: data ?? this.data,
+        message: message ?? this.message,
+        getUserState: getUserState ?? this.getUserState,
+        editUserData: editUserData ?? this.editUserData,
+        deleteUserData: deleteUserData ?? this.deleteUserData
     );
   }
 
   @override
   List<Object?> get props => [data, message, getUserState, editUserData, deleteUserData];
-
 }

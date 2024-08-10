@@ -1,10 +1,8 @@
 import 'package:doctory/Features/appointment/Presentation/bloc/appointment_bloc.dart';
 import 'package:doctory/Features/authentication/presentation/auth_Bloc/auth_bloc.dart';
 import 'package:doctory/Features/authentication/presentation/screens/Register_screen.dart';
-import 'package:doctory/Features/home/pages/Home.dart';
 import 'package:doctory/common/Doctor/BLOC/doctor_bloc.dart';
 import 'package:doctory/common/user/BLOC/user_bloc.dart';
-//import 'package:doctory/common/user/presentation/User_Bloc/user_bloc.dart';
 import 'package:doctory/core/Depend_injection/dependency_injection.dart';
 import 'package:doctory/core/Themes/App_Theme.dart';
 import 'package:doctory/generated/l10n.dart';

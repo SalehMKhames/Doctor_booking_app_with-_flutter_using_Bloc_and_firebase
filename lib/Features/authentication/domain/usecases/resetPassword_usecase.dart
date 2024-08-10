@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/v4.dart';
 
 import "../repositiories/user_credentials_repo.dart";
 import 'package:doctory/core/ErrorHandling/failure.dart';
@@ -11,6 +12,6 @@ class ResetPasswordUsecase
 
   ResetPasswordUsecase({required this.userRepo});
 
-  Future<Either<Failure, Unit>> execute(String email, String newPass) async
-    => await userRepo.resetPassword(email, newPass);
+  Future<Either<Failure, Unit>> execute(UuidV4 id, String newPass) async
+    => await userRepo.resetPassword(id, newPass);
 }

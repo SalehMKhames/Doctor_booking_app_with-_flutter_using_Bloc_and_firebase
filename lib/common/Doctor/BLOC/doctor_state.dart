@@ -5,6 +5,7 @@ enum DoctorStatus{init, loading, success, failed}
 class DoctorState extends Equatable
 {
   final Doctor? doctor;
+  final List<Doctor>? allDoctors;
   final String? message;
   final DoctorStatus getDoctorState;
   final DoctorStatus getAllDoctorsState;
@@ -13,6 +14,7 @@ class DoctorState extends Equatable
 
   const DoctorState({
     this.doctor,
+    this.allDoctors,
     this.message,
     this.getDoctorState = DoctorStatus.init,
     this.getAllDoctorsState = DoctorStatus.init,
@@ -41,5 +43,5 @@ class DoctorState extends Equatable
   }
 
   @override
-  List<Object?> get props => [doctor, message, getDoctorState, getAllDoctorsState, getDoctorByNameState, getDoctorsBySpecialState];
+  List<Object?> get props => [doctor, allDoctors, message, getDoctorState, getAllDoctorsState, getDoctorByNameState, getDoctorsBySpecialState];
 }

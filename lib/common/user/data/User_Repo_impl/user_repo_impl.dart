@@ -6,6 +6,7 @@ import 'package:doctory/common/user/domain/repository/user_repo.dart';
 import 'package:doctory/core/ErrorHandling/exceptions.dart';
 import 'package:doctory/core/ErrorHandling/failure.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/v4.dart';
 
 @Injectable(as: UserRepo)
 class UserRepoImpl extends UserRepo
