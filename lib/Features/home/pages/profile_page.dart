@@ -1,3 +1,4 @@
+import "package:doctory/generated/l10n.dart";
 import "package:flutter/material.dart";
 
 class ProfilePage extends StatefulWidget {
@@ -9,8 +10,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
@@ -18,10 +18,8 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Container(
             margin: EdgeInsets.all(30),
             width: double.infinity,
-            child: const Column
-            (
-              children: <Widget>
-              [
+            child: const Column(
+              children: <Widget>[
                 SizedBox(
                   height: 30,
                 ),
@@ -112,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Icons.logout,
                         color: Colors.brown,
                       ),
-                      title: const Text("Sign Out"),
+                      title: Text(S.of(context).Sign_Out),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () {},
                     ),

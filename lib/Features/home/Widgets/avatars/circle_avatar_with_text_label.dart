@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:doctory/core/Themes/App_Theme.dart';
 
 class CircleAvatarWithTextLabel extends StatelessWidget {
   const CircleAvatarWithTextLabel({
@@ -6,11 +7,11 @@ class CircleAvatarWithTextLabel extends StatelessWidget {
     required this.icon,
     required this.label,
     this.onTap,
-    });
+  });
 
-    final IconData icon;
-    final String label;
-    final VoidCallback? onTap;
+  final IconData icon;
+  final String label;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +23,17 @@ class CircleAvatarWithTextLabel extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundColor: ColorScheme.primary,
+            backgroundColor: Color(0xff909cdf),
             foregroundColor: ColorScheme.onPrimary,
             child: Icon(icon),
-          ), 
-      
-          const SizedBox(height: 8.0,),
-      
-          Text(label,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           )
         ],
       ),

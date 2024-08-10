@@ -22,28 +22,32 @@ class _SliderScreenState extends State<SliderWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column
-      (
-        children:
-        [
-          CarouselSlider
-          (
-            items: imageList.map(
-                    (item) => Image.asset(item['image_path'], fit: BoxFit.cover, width: double.infinity,),
-            ).toList(),
-            carouselController: carouselController,
-            options: CarouselOptions(
-                scrollPhysics: const BouncingScrollPhysics(),
-                autoPlay: true,
-                aspectRatio: .5,
-                viewportFraction: 1,
-                onPageChanged: (index, reason) {
-                  setState(() {currentIndex = index;});
-                },
-              ),
-            ),
-          ]
-      ),
+      body: Column(mainAxisSize: MainAxisSize.max, children: [
+        CarouselSlider(
+          items: imageList
+              .map(
+                (item) => Image.asset(
+                  item['image_path'],
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                ),
+              )
+              .toList(),
+          carouselController: carouselController,
+          options: CarouselOptions(
+            scrollPhysics: const BouncingScrollPhysics(),
+            autoPlay: true,
+            aspectRatio: 0.5,
+            viewportFraction: 1,
+            onPageChanged: (index, reason) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+          ),
+        ),
+      ]),
     );
   }
 }

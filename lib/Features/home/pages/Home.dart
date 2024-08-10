@@ -1,11 +1,11 @@
 import 'package:doctory/Features/appointment/Presentation/screens/Appointments_shcedule.dart';
 import 'package:doctory/Features/home/pages/StartPage.dart';
 import 'package:doctory/Features/home/pages/profile_page.dart';
+import 'package:doctory/generated/l10n.dart';
 
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget
-{
+class HomeScreen extends StatefulWidget {
   final String id;
   const HomeScreen({super.key, required this.id});
 
@@ -13,14 +13,17 @@ class HomeScreen extends StatefulWidget
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-{
+class _HomeScreenState extends State<HomeScreen> {
   late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
-    _pages = [StartPage(id: widget.id), const AppointmentPage(), const ProfilePage()];
+    _pages = [
+      StartPage(id: widget.id),
+      const AppointmentPage(),
+      const ProfilePage()
+    ];
   }
 
   @override
@@ -34,40 +37,44 @@ class _HomeScreenState extends State<HomeScreen>
   int curr = 0;
 
   BottomNavigationBar buildNavigationBar(BuildContext context) {
-
     return BottomNavigationBar(
       currentIndex: curr,
       showSelectedLabels: true,
       showUnselectedLabels: true,
       unselectedFontSize: 14,
+      
       type: BottomNavigationBarType.fixed,
       onTap: (index) {
-        switch (index)
-        {
+        switch (index) {
           case 0:
-            setState(() {curr = index;});
+            setState(() {
+              curr = index;
+            });
             break;
           case 1:
-            setState(() {curr = index;});
+            setState(() {
+              curr = index;
+            });
             break;
           case 2:
-            setState(() {curr = index;});
+            setState(() {
+              curr = index;
+            });
             break;
         }
       },
-      items: const [
+      items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
-
+          label: S.of(context).Home,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.calendar_month_outlined),
-          label: 'Appointment',
+          label: S.of(context).Appointment,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
-          label: 'Profile',
+          label: S.of(context).Profile,
         ),
       ],
     );

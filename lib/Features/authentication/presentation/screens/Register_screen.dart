@@ -5,63 +5,57 @@ import 'package:doctory/Features/authentication/presentation/widgets/Slider_widg
 import 'package:doctory/Features/home/pages/Home.dart';
 import 'package:doctory/core/Themes/App_Theme.dart';
 import 'package:doctory/core/utils/widgets/my_snack_bar.dart';
+import 'package:doctory/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-class RegisterScreen extends StatefulWidget
-{
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen>
-{
+class _RegisterScreenState extends State<RegisterScreen> {
   @override
-  Widget build(BuildContext context)
-  {
-
-    return BlocListener<AuthBloc, AuthState>
-    (
+  Widget build(BuildContext context) {
+    return BlocListener<AuthBloc, AuthState>(
       listenWhen: (previous, current) =>
-      (previous.userRegister == UserAuthStatus.loading && current.userRegister == UserAuthStatus.success ||
-          previous.userRegister == UserAuthStatus.loading && current.userRegister == UserAuthStatus.failed)
-          ||
-          (previous.userLogIn == UserAuthStatus.loading && current.userLogIn == UserAuthStatus.success ||
-              previous.userLogIn == UserAuthStatus.loading && current.userLogIn == UserAuthStatus.failed),
+          (previous.userRegister == UserAuthStatus.loading &&
+                  current.userRegister == UserAuthStatus.success ||
+              previous.userRegister == UserAuthStatus.loading &&
+                  current.userRegister == UserAuthStatus.failed) ||
+          (previous.userLogIn == UserAuthStatus.loading &&
+                  current.userLogIn == UserAuthStatus.success ||
+              previous.userLogIn == UserAuthStatus.loading &&
+                  current.userLogIn == UserAuthStatus.failed),
 
-      listener: (context, state)
-      {
+      listener: (context, state) {
         //The Register
-        if (state.userRegister == UserAuthStatus.failed)
-        {
+        if (state.userRegister == UserAuthStatus.failed) {
           ScaffoldMessenger.of(context).showSnackBar(MySnackBar.call(
               state.message!,
               AppTheme().themData.colorScheme.errorContainer,
               AppTheme().themData.colorScheme.error));
         }
-        if (state.userRegister == UserAuthStatus.success)
-        {
+        if (state.userRegister == UserAuthStatus.success) {
           ScaffoldMessenger.of(context).showSnackBar(MySnackBar.call(
               state.message!, Colors.teal, Colors.white70)); //snackBar
 
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return ProvidingInfoScreen(email:state.credentials!.email);
+            return ProvidingInfoScreen(email: state.credentials!.email);
           }));
         }
         //The Log in
-        if (state.userLogIn == UserAuthStatus.failed)
-        {
+        if (state.userLogIn == UserAuthStatus.failed) {
           ScaffoldMessenger.of(context).showSnackBar(MySnackBar.call(
               state.message!,
               AppTheme().themData.colorScheme.errorContainer,
               AppTheme().themData.colorScheme.error));
         }
-        if (state.userLogIn == UserAuthStatus.success)
-        {
+        if (state.userLogIn == UserAuthStatus.success) {
           ScaffoldMessenger.of(context).showSnackBar(MySnackBar.call(
               state.message!, Colors.teal, Colors.white70)); //snackBar
 
@@ -72,42 +66,49 @@ class _RegisterScreenState extends State<RegisterScreen>
       },
 
       //The UI
-      child: Scaffold
-      (
-        body: Stack(
-        children:
-        [
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          // actions: [
+          //   DropdownButton(items: const [
+          //     DropdownMenuItem(child: Icon(Icons.flag)),
+          //     DropdownMenuItem(child: Icon(Icons.language))
+          //   ], onChanged: (index) {})
+          // ],
+        ),
+        body: Stack(children: [
           const SliderWidget(),
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(begin: Alignment.bottomRight, colors: [
-                  Colors.black.withOpacity(.9),
-                  Colors.black.withOpacity(.4),
-                ])),
+              Colors.black.withOpacity(.9),
+              Colors.black.withOpacity(.4),
+            ])),
           ),
-          Container
-          (
+          Container(
             margin: const EdgeInsets.all(12),
-            child: Column
-            (
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children:
-                [
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
                   Text(
-                    "Welcome,",
+                    S.of(context).title,
                     style: GoogleFonts.dmSerifText(
                         fontSize: 42, color: Colors.white70),
                   ),
-                  Text(
-                      "Just in 3 steps, book your appointment with a doctor:\n•Search for his name\n•Choose the time\n•GO",
+                  Text(S.of(context).description,
                       style: GoogleFonts.merriweather(
                           fontSize: 16, color: Colors.white70)),
-                  const SizedBox(
-                    height: 18,
-                  ),
+                  // const SizedBox(
+                  //   height: 18,
+                  // ),
 
                   //Register Button
+
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -115,9 +116,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                       color: const Color(0xff909CDF),
                     ),
                     child: TextButton(
-                      child: const Text(
-                        "Start",
-                        style: TextStyle(fontSize: 15, color: Colors.white),
+                      child: Text(
+                        S.of(context).btnStart,
+                        style:
+                            const TextStyle(fontSize: 15, color: Colors.white),
                       ),
                       onPressed: () {
                         showModalBottomSheet(
@@ -129,11 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                       },
                     ),
                   ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-              ]
-            ),
+                ]),
           ),
         ]),
       ),

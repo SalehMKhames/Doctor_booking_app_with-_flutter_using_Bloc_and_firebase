@@ -1,5 +1,6 @@
 import 'package:doctory/core/Themes/App_Theme.dart';
 import 'package:doctory/core/utils/MediaQueryconfig.dart';
+import 'package:doctory/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentPage extends StatefulWidget {
@@ -8,11 +9,11 @@ class AppointmentPage extends StatefulWidget {
   @override
   State<AppointmentPage> createState() => _AppointmentPageState();
 }
+
 //enum for appointment status
 enum FilterStatus { Waiting, Accepted, Refused }
 
-class _AppointmentPageState extends State<AppointmentPage>
-{
+class _AppointmentPageState extends State<AppointmentPage> {
   FilterStatus status = FilterStatus.Waiting; //initial status
   Alignment _alignment = Alignment.centerLeft;
   List<dynamic> schedules = [
@@ -47,8 +48,8 @@ class _AppointmentPageState extends State<AppointmentPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const Text(
-              'Appointment Schedule',
+            Text(
+              S.of(context).Appointment_Schedule,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -189,8 +190,8 @@ class _AppointmentPageState extends State<AppointmentPage>
                                   child: status != FilterStatus.Accepted
                                       ? OutlinedButton(
                                           onPressed: () {},
-                                          child: const Text(
-                                            'Cancel',
+                                          child: Text(
+                                            S.of(context).Cancel,
                                           ),
                                         )
                                       : const Padding(
@@ -208,11 +209,12 @@ class _AppointmentPageState extends State<AppointmentPage>
                                   child: status != FilterStatus.Accepted
                                       ? OutlinedButton(
                                           style: OutlinedButton.styleFrom(
-                                            backgroundColor: AppTheme().themData.primaryColor
-                                          ),
+                                              backgroundColor: AppTheme()
+                                                  .themData
+                                                  .primaryColor),
                                           onPressed: () {},
-                                          child: const Text(
-                                            'Reschedule',
+                                          child: Text(
+                                            S.of(context).Reschedule,
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ),
@@ -250,24 +252,24 @@ class ScheduleCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-           Icon(
+          Icon(
             Icons.calendar_today,
             size: 15,
           ),
-           SizedBox(
+          SizedBox(
             width: 5,
           ),
           Text(
             'Monday,11/22/2024',
           ),
-           SizedBox(
+          SizedBox(
             width: 20,
           ),
-           Icon(
+          Icon(
             Icons.access_alarm,
             size: 17,
           ),
-           SizedBox(
+          SizedBox(
             width: 5,
           ),
           Flexible(

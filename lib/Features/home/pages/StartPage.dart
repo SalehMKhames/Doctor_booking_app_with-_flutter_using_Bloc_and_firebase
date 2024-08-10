@@ -2,15 +2,16 @@ import 'package:doctory/Features/appointment/Presentation/bloc/appointment_bloc.
 import 'package:doctory/Features/home/Widgets/avatars/circle_avatar_with_text_label.dart';
 import 'package:doctory/Features/home/Widgets/cards/appointemnt_preview_card.dart';
 import 'package:doctory/Features/home/Widgets/section_title.dart';
+import 'package:doctory/Features/home/pages/categories.dart';
 import 'package:doctory/common/Doctor/BLOC/doctor_bloc.dart';
 import 'package:doctory/common/user/BLOC/user_bloc.dart';
 import 'package:doctory/core/Depend_injection/dependency_injection.dart';
 import 'package:doctory/core/utils/src/doctor_category.dart';
+import 'package:doctory/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class StartPage extends StatefulWidget
-{
+class StartPage extends StatefulWidget {
   final String id;
   const StartPage({super.key, required this.id});
 
@@ -21,18 +22,17 @@ class StartPage extends StatefulWidget
 class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme
-        .of(context)
-        .textTheme;
-    final colorScheme = Theme
-        .of(context)
-        .colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => getIt<UserBloc>()..add(GetUserEvent(id: widget.id)),),
+        BlocProvider(
+          create: (context) =>
+              getIt<UserBloc>()..add(GetUserEvent(id: widget.id)),
+        ),
         BlocProvider(create: (context) => getIt<DoctorBloc>()),
-        BlocProvider(create: (context) => getIt<AppointmentBloc>()..add(Ge))
+        BlocProvider(create: (context) => getIt<AppointmentBloc>())
       ],
       child: Scaffold(
         drawer: const Drawer(),
@@ -43,7 +43,7 @@ class _StartPageState extends State<StartPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Welcome',
+                S.of(context).title,
                 style: textTheme.bodyMedium!.copyWith(
                     fontFamily: 'BriemHand', fontWeight: FontWeight.bold),
               ),
@@ -73,7 +73,7 @@ class _StartPageState extends State<StartPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 decoration: InputDecoration(
-                  hintText: 'Search for doctors...',
+                  hintText: S.of(context).Search_for_doctors,
                   prefixIcon: const Icon(Icons.search),
                   suffixIcon: Container(
                     margin: const EdgeInsets.all(4.0),
@@ -91,7 +91,6 @@ class _StartPageState extends State<StartPage> {
             ),
           ),
         ),
-
         body: const SingleChildScrollView(
           child: Column(
             children: [
@@ -117,29 +116,35 @@ class _DoctorCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SectionTitle(
-          title: 'Categories',
-          action: 'See all',
-          onPressed: () {},
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: DoctorCategory.values
-              .take(5)
-              .map(
-                (Category) =>
-                Expanded(
-                  child: CircleAvatarWithTextLabel(
-                    icon: Category.icon,
-                    label: Category.name,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          SectionTitle(
+            title: S.of(context).Specializations,
+            action: S.of(context).See_all,
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return const Categories();
+              }));
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: DoctorCategory.values
+                .take(5)
+                .map(
+                  (Category) => Expanded(
+                    child: CircleAvatarWithTextLabel(
+                      icon: Category.icon,
+                      label: Category.name,
+                    ),
                   ),
-                ),
-          )
-              .toList(),
-        ),
-      ],
+                )
+                .toList(),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -152,10 +157,9 @@ class _MySchedule extends StatelessWidget {
     return Column(
       children: [
         SectionTitle(
-          title: 'My Schedule',
-          action: 'See all',
-          onPressed: () {},
-        ),
+            title: S.of(context).My_Schedule,
+            action: S.of(context).See_all,
+            onPressed: () {}),
         const AppointemntPreviewCard(),
       ],
     );
