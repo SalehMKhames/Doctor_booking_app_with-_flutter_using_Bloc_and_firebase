@@ -4,12 +4,15 @@ import 'package:doctory/Features/home/Widgets/cards/appointemnt_preview_card.dar
 import 'package:doctory/Features/home/Widgets/section_title.dart';
 import 'package:doctory/Features/home/pages/categories.dart';
 import 'package:doctory/common/Doctor/BLOC/doctor_bloc.dart';
+import 'package:doctory/common/Doctor/domain/entity/doctor.dart';
 import 'package:doctory/common/user/BLOC/user_bloc.dart';
 import 'package:doctory/core/Depend_injection/dependency_injection.dart';
 import 'package:doctory/core/utils/src/doctor_category.dart';
 import 'package:doctory/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../Widgets/list_tiles/doctor_list_tile.dart';
 
 class StartPage extends StatefulWidget {
   final String id;
@@ -28,83 +31,49 @@ class _StartPageState extends State<StartPage>
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => getIt<UserBloc>()..add(GetUserEvent(id: widget.id)),),
-        BlocProvider(create: (context) => getIt<DoctorBloc>()),
-        BlocProvider(create: (context) => getIt<AppointmentBloc>())
-      ],
-      child: Scaffold(
-        drawer: const Drawer(),
-        appBar: AppBar(
-          toolbarHeight: 80,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children:
-            [
-              Text(
-                S.of(context).title,
-                style: textTheme.bodyMedium!.copyWith(
-                    fontFamily: 'BriemHand', fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 4.0),
-              Text(
-                BlocProvider.of<UserBloc>(context).state.data!.Name,
-                style: textTheme.bodyLarge!.copyWith(
-                  // fontWeight: FontWeight.bold,
-                  fontFamily: 'jaro',
-                ),
-              ),
-              const SizedBox(height: 4.0),
-            ],
-          ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(64.0),
-            child: Padding
-            (
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField
-              (
-                controller: searchController,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration
-                (
-                  hintText: S.of(context).Search_for_doctors,
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: Container
-                  (
-                    margin: const EdgeInsets.all(4.0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration
-                    (
-                      color: colorScheme.onSurfaceVariant,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: const Icon(
-                      Icons.filter_alt_outlined,
-                    ),
-                  ),
-
-                ),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 80,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children:
+          [
+            Text(
+              S.of(context).title,
+              style: textTheme.bodyMedium!.copyWith(
+                  fontFamily: 'BriemHand', fontWeight: FontWeight.bold),
             ),
-          ),
+            const SizedBox(height: 4.0),
+            BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                return Text(
+                            state.data!.Name,
+                            style: textTheme.bodyLarge!.copyWith(
+                              // fontWeight: FontWeight.bold,
+                              fontFamily: 'jaro',
+                              color: Colors.black87
+                            ),
+                          );
+              },
+            ),
+            const SizedBox(height: 4.0),
+          ],
         ),
-        body: const SingleChildScrollView(
-          child: Column(
-            children: [
-              _DoctorCategories(),
-              SizedBox(
-                height: 24.0,
-              ),
-              _MySchedule(),
-              SizedBox(
-                height: 24.0,
-              ),
-              // _NearbyDoctors(),
-            ],
-          ),
+      ),
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            _DoctorCategories(),
+            SizedBox(
+              height: 24.0,
+            ),
+            _MySchedule(),
+            SizedBox(
+              height: 24.0,
+            ),
+             // _NearbyDoctors(),
+          ],
         ),
       ),
     );

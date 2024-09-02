@@ -4,11 +4,11 @@ import 'package:doctory/common/user/BLOC/user_bloc.dart';
 import 'package:doctory/core/utils/MediaQueryconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uuid/v4.dart';
+
 
 class DoctorProfile extends StatefulWidget
 {
-  final UuidV4 id;
+  final String id;
 
   const DoctorProfile({Key? key, required this.id}) : super(key: key);
   @override
@@ -54,7 +54,7 @@ class _DoctorDetailsState extends State<DoctorProfile> {
                         MaterialPageRoute(builder: (context) => BookingPage
                         (
                           doctorId: widget.id,
-                          patientId: BlocProvider.of<UserBloc>(context).state.data!.id,)
+                          patientId: BlocProvider.of<UserBloc>(context).state.data!.id as String,)
                         ));
                   },
                   child: const Text(

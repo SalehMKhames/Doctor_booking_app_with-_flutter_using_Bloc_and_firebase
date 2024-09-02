@@ -17,7 +17,7 @@ import 'package:uuid/v4.dart';
 
 @Injectable()
 class AuthRemoteSource {
-  late final UuidV4 id;
+  late final String id;
   final http.Client client;
 
   AuthRemoteSource({required this.client,});
@@ -33,7 +33,7 @@ class AuthRemoteSource {
     if (res.statusCode == 200) //on success
     {
       final userDetails = CredentialsModel.fromJson(await json.decode(res.body));
-      id = userDetails.localId as UuidV4;
+      id = userDetails.localId;
       return userDetails;
     }
     else if (res.statusCode == 400) //on bad request
@@ -149,7 +149,7 @@ class AuthRemoteSource {
     try
     {
       final collectionRef = FirebaseFirestore.instance.collection(dbName);
-      final docRef = collectionRef.doc(id as String);
+      final docRef = collectionRef.doc(id);
       docRef.set(userData);
       return unit;
     }
@@ -186,7 +186,7 @@ class AuthRemoteSource {
     try
     {
       final collectionRef = FirebaseFirestore.instance.collection(Database);
-      final docRef = collectionRef.doc(id as String);
+      final docRef = collectionRef.doc(id);
       docRef.set(docData);
       return unit;
     }

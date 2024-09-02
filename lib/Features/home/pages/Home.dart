@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _pages = [
       StartPage(id: widget.id),
       const AppointmentPage(),
-      ProfilePage(id: widget.id,)
+      const ProfilePage()
     ];
   }
 

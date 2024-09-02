@@ -1,6 +1,3 @@
-import "dart:io";
-
-import "package:doctory/Features/authentication/presentation/auth_Bloc/auth_bloc.dart";
 import "package:doctory/common/user/BLOC/user_bloc.dart";
 import "package:doctory/generated/l10n.dart";
 import "package:flutter/material.dart";
@@ -8,9 +5,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:uuid/v4.dart";
 
 class ProfilePage extends StatefulWidget {
-  final String id;
-
-  const ProfilePage({Key? key, required this.id}) : super(key: key);
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -21,12 +16,7 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   Widget build(BuildContext context)
   {
-    return BlocBuilder<UserBloc, UserState>
-    (
-      buildWhen: (pre, cur) => pre.getUserState == UserDataStatus.loading && cur.getUserState == UserDataStatus.success,
-      builder: (context, state)
-      {
-        return Column(
+    return Column(
           children: [
             Expanded(
               flex: 3,
@@ -35,30 +25,30 @@ class _ProfilePageState extends State<ProfilePage>
                 width: double.infinity,
                 child:  Column(
                   children: <Widget>[
-                    const SizedBox(
+                    SizedBox(
                       height: 30,
                     ),
                     CircleAvatar(
                       radius: 45.0,
-                      backgroundImage: FileImage(state.data!.profilePicture as File),
+                      backgroundImage: AssetImage("assets/1.jpg"),
                       backgroundColor: Colors.black87,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                     Text(
-                      state.data!.Name,
-                      style: const TextStyle(
+                      'Amanda Tan',
+                      style: TextStyle(
                         color: Colors.black87,
                         fontSize: 20,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                     Text(
-                      state.data!.birthDate!,
-                      style: const TextStyle(
+                      '23 Years Old | Female',
+                      style: TextStyle(
                         color: Colors.black87,
                         fontSize: 15,
                       ),
@@ -67,38 +57,34 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ),
             ),
-            Expanded
-            (
+            Expanded(
               flex: 5,
-              child: Padding
-              (
+              child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: SingleChildScrollView
-                (
-                  child: Column
-                  (
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
-                      Card(
+                      const Card(
                         elevation: 4,
                         child: ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             Icons.mail,
                             color: Colors.brown,
                           ),
-                          title: Text(state.data!.email),
+                          title: Text("abd@gmail.com"),
                         ),
                       ),
                       const SizedBox(
                         height: 8,
                       ),
-                      Card(
+                      const Card(
                         elevation: 4,
                         child: ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             Icons.phone,
                             color: Colors.brown,
                           ),
-                          title: Text(state.data!.phone!),
+                          title: Text("0969********"),
                         ),
                       ),
                       const SizedBox(
@@ -111,7 +97,7 @@ class _ProfilePageState extends State<ProfilePage>
                             Icons.medical_information,
                             color: Colors.brown,
                           ),
-                          title: Text(state.data!.medicalStatus!),
+                          title: Text("pain in the joints"),
                           trailing: const Icon(Icons.edit),
                           onTap: () {
                             // Navigator.of(context).push(
@@ -129,9 +115,11 @@ class _ProfilePageState extends State<ProfilePage>
                             Icons.logout,
                             color: Colors.brown,
                           ),
-                          title: Text(S.of(context).Sign_Out),
+                          title: Text(S
+                              .of(context)
+                              .Sign_Out),
                           trailing: const Icon(Icons.chevron_right),
-                          onTap: () {BlocProvider.of<AuthBloc>(context).add(const SignOutEvent());},
+                          onTap: () {},
                         ),
                       ),
                     ],
@@ -141,7 +129,5 @@ class _ProfilePageState extends State<ProfilePage>
             ),
           ],
         );
-      },
-    );
   }
 }

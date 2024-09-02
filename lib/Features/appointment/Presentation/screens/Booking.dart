@@ -11,8 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:uuid/v4.dart';
 
 class BookingPage extends StatefulWidget {
-  final UuidV4 doctorId;
-  final UuidV4 patientId;
+  final String doctorId;
+  final String patientId;
 
   BookingPage({Key? key,required this.doctorId, required this.patientId}) : super(key: key);
 
@@ -154,8 +154,8 @@ class _BookingPageState extends State<BookingPage> {
                     if (_timeSelected == true && _dateSelected == true) {
                       BlocProvider.of<AppointmentBloc>(context).add(
                           CreateEvent(
-                              doctorId: widget.doctorId,
-                              userId: widget.patientId,
+                              doctorId: widget.doctorId as UuidV4,
+                              userId: widget.patientId as UuidV4,
                               hour: _focusDay,
                               day: _currentDay,
                               initAcceptance:Acceptance.wait,

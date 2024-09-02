@@ -7,6 +7,7 @@ import 'package:doctory/common/Doctor/Presentation/screens/doctor_profile.dart';
 import 'package:doctory/core/utils/src/doctor_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/v4.dart';
 
 
 class SpecializeScreen extends StatefulWidget {

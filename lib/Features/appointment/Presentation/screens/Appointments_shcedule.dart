@@ -24,13 +24,13 @@ class _AppointmentPageState extends State<AppointmentPage> {
       "status": FilterStatus.Waiting,
     },
     {
-      "doctor_name": "Johnny sins",
+      "doctor_name": "John Doe",
       "doctor_profile": "assets/2.jpg",
       "category": "Respiration",
       "status": FilterStatus.Accepted,
     },
     {
-      "doctor_name": "Oamiry sins",
+      "doctor_name": "Albert Einstein",
       "doctor_profile": "assets/1.jpg",
       "category": "Respiration",
       "status": FilterStatus.Refused,
